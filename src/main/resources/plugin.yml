@@ -1,0 +1,11 @@
+name: SMP-Plugins
+version: ${project.version}
+main: me.fingolfin.smp.main
+api-version: 1.16
+authors: [ Fingolfin ]
+description: plugins for le smp
+website: you.are.gay
+
+commands:
+  hello:
+    aliases: []
