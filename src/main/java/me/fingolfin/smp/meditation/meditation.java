@@ -6,25 +6,18 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
-import org.bukkit.attribute.Attributable;
-import org.bukkit.attribute.Attribute;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class meditation implements CommandExecutor {
 
     private main plugin;
     private Player player;
-    private Location loc;
-    //private static List<String> meditators = new ArrayList<String>();
     private static HashMap<String, Location> meditators = new HashMap<>();
 
     public meditation(main plugin) {
