@@ -8,4 +8,8 @@ website: you.are.gay
 
 commands:
   hello:
+    aliases: ["test"]
+  3ac:
+    aliases: ["moondancer"]
+  plotarmor:
     aliases: []
