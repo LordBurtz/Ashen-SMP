@@ -69,16 +69,6 @@ public class armor implements CommandExecutor {
 
         int max = 32000;
         ItemMeta itemmeta = item.getItemMeta();
-        /*
-        itemmeta.addEnchant(Enchantment.PROTECTION_FIRE, max, true);
-        itemmeta.addEnchant(Enchantment.PROTECTION_EXPLOSIONS, max, true);
-        itemmeta.addEnchant(Enchantment.PROTECTION_FALL, max , true);
-        itemmeta.addEnchant(Enchantment.OXYGEN, max, true);
-        itemmeta.addEnchant(Enchantment.WATER_WORKER, max, true);
-        itemmeta.addEnchant(Enchantment.DURABILITY, max, true);
-        itemmeta.addEnchant(Enchantment.DEPTH_STRIDER, 2, true);
-        itemmeta.addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 3, true);
-        */
 
         itemmeta.addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 3, true);
         itemmeta.addEnchant(Enchantment.OXYGEN, 2, true);

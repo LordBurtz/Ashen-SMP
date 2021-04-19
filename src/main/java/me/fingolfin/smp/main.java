@@ -22,6 +22,6 @@ public final class main extends JavaPlugin {
 
     @Override
     public void onDisable() {
-
+        meditation.onShutdown();
     }
 }
