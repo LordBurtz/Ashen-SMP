@@ -13,3 +13,5 @@ commands:
     aliases: ["moondancer"]
   plotarmor:
     aliases: []
+  meditate:
+    aliases: []
