@@ -110,19 +110,25 @@ public class meditation implements CommandExecutor, Listener {
     }
 
     public static void onShutdown() {
-       for (Map.Entry<String, Location> set : meditators.entrySet()) {
-           Player player = Bukkit.getPlayer(set.getKey());
-           player.teleport(set.getValue());
-           player.setGameMode(GameMode.SURVIVAL);
-           meditators.remove(player.getName());
-       }
+        for (Map.Entry<String, Location> set : meditators.entrySet()) {
+            if (set.getKey() == null || set.getValue() == null) {
+                continue;
+            } else {
+                Player player = Bukkit.getPlayer(set.getKey());
+                player.teleport(set.getValue());
+                player.setGameMode(GameMode.SURVIVAL);
+                meditators.remove(player.getName());
+
+            }
+        }
     }
+
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
 
         Player player = event.getPlayer();
         if (this.data.getConfig(config_file).contains("meditators." + player.getName())) {
-            Double x = data.getConfig(config_file).getDouble("meditators." + player.getName() + ".location.X");
+            Double x = data.getConfig(config_file).getDouble("meditators." + player.getName() + ".location.x");
             Double y = data.getConfig(config_file).getDouble("meditators." + player.getName() + ".location.y");
             Double z = data.getConfig(config_file).getDouble("meditators." + player.getName() + ".location.z");
             Location loc = new Location(player.getWorld(), x, y, z);
@@ -130,6 +136,7 @@ public class meditation implements CommandExecutor, Listener {
             player.setGameMode(GameMode.SURVIVAL);
             data.getConfig(config_file).set("meditators." + player.getName(), null);
             data.saveConfig(config_file);
+            meditators.remove(player.getName());
         } else return;
     }
 }
