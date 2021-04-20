@@ -117,4 +117,19 @@ public class meditation implements CommandExecutor, Listener {
            meditators.remove(player.getName());
        }
     }
+    @EventHandler
+    public void onJoin(PlayerJoinEvent event) {
+
+        Player player = event.getPlayer();
+        if (this.data.getConfig(config_file).contains("meditators." + player.getName())) {
+            Double x = data.getConfig(config_file).getDouble("meditators." + player.getName() + ".location.X");
+            Double y = data.getConfig(config_file).getDouble("meditators." + player.getName() + ".location.y");
+            Double z = data.getConfig(config_file).getDouble("meditators." + player.getName() + ".location.z");
+            Location loc = new Location(player.getWorld(), x, y, z);
+            player.teleport(loc);
+            player.setGameMode(GameMode.SURVIVAL);
+            data.getConfig(config_file).set("meditators." + player.getName(), null);
+            data.saveConfig(config_file);
+        } else return;
+    }
 }
