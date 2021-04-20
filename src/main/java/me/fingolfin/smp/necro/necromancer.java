@@ -123,7 +123,7 @@ public class necromancer implements CommandExecutor, Listener {
 
                 Bukkit.getScheduler().runTaskLater(plugin, () ->  {
                     entity.setTarget(Bukkit.getPlayer(target));
-                }, 3);
+                }, 20);
             }
             army.replace(set.getKey(), army.get(set.getKey()), 0);
         }
