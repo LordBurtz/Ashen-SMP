@@ -62,10 +62,10 @@ public class necromancer implements CommandExecutor, Listener {
 
             case 1:
                 if (strings[0].equals("summon")) {
-                    summon();
+                    summon(commandSender);
                 } else {
                     if (strings.equals("check")) {
-                        check();
+                        check(commandSender);
                     }
                 }
                 break;
@@ -91,9 +91,8 @@ public class necromancer implements CommandExecutor, Listener {
 
     @EventHandler
     public void onMobKill(EntityDeathEvent event) {
-        System.out.println("got called");
+        if (event.getEntity().getKiller() == null) return;
         if (!(event.getEntity().getKiller().getName().equals("MINION912") || event.getEntity().getKiller().getName().equals("Fingolf1n"))) return;
-        System.out.println("killer recognized");
         EntityType type = event.getEntityType();
         if (mobs_atm > MAX_MOBS) return;
         if (army.containsKey(type)) {
@@ -103,11 +102,13 @@ public class necromancer implements CommandExecutor, Listener {
         }
     }
 
-    public void summon() {
+    public void summon(CommandSender sender) {
         return;
     }
 
-    public void check() {
-        return;
+    public void check(CommandSender sender) {
+        for (Map.Entry<EntityType, Integer> set : army.entrySet()) {
+            sender.sendMessage(String.format("you have "));
+        }
     }
 }

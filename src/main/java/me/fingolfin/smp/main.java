@@ -1,11 +1,10 @@
 package me.fingolfin.smp;
 
-import me.fingolfin.smp.helloworld.helloworldcmd;
-import me.fingolfin.smp.horse.horse_spwn_cmd;
 import me.fingolfin.smp.meditation.meditation;
-import me.fingolfin.smp.necro.necromancer;
-import me.fingolfin.smp.plotarmor.armor;
-import me.fingolfin.smp.plotarmor.damageEvent;
+import me.fingolfin.smp.necro.*;
+import me.fingolfin.smp.helloworld.*;
+import me.fingolfin.smp.horse.*;
+import me.fingolfin.smp.plotarmor.*;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class main extends JavaPlugin {

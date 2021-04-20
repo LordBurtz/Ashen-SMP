@@ -1,7 +1,7 @@
 package me.fingolfin.smp.meditation;
 
+import me.fingolfin.smp.*;
 import me.fingolfin.smp.data.data;
-import me.fingolfin.smp.main;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
@@ -9,20 +9,30 @@ import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerTeleportEvent;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class meditation implements CommandExecutor {
+public class meditation implements CommandExecutor, Listener {
 
     private main plugin;
     private Player player;
     private static HashMap<String, Location> meditators = new HashMap<>();
+    private me.fingolfin.smp.data.data data;
+    private final String config_file = "meditation.yml";
 
     public meditation(main plugin) {
         this.plugin =  plugin;
         plugin.getCommand("meditate").setExecutor(this);
+        Bukkit.getPluginManager().registerEvents(this, plugin);
+        this.data = new data(plugin, config_file);
+        data.saveDefaultConfig(config_file);
     }
 
     @Override
@@ -65,9 +75,6 @@ public class meditation implements CommandExecutor {
 
     public void meditateOn(CommandSender commandSender) {
 
-        data.loadData(plugin, "test.yml");
-
-
         if (player.getLevel() < 40) {
             commandSender.sendMessage(ChatColor.BOLD + "you are not wise enough");
             return;
@@ -87,6 +94,10 @@ public class meditation implements CommandExecutor {
         Bukkit.getScheduler().runTaskLater(plugin, () -> {
             player.setGameMode(GameMode.SPECTATOR);
             meditators.put(player.getName(), player.getLocation());
+            data.getConfig(config_file).set("meditators." + player.getName() + ".location.x", player.getLocation().getX());
+            data.getConfig(config_file).set("meditators." + player.getName() + ".location.y", player.getLocation().getY());
+            data.getConfig(config_file).set("meditators." + player.getName() + ".location.z", player.getLocation().getZ());
+            data.saveConfig(config_file);
         }, 80);
     }
 
@@ -95,6 +106,7 @@ public class meditation implements CommandExecutor {
         player.setGameMode(GameMode.SURVIVAL);
         sender.sendMessage(ChatColor.ITALIC + "your body wraps around your mind again");
         meditators.remove(player.getName());
+        data.getConfig(config_file).set("meditators." + player.getName(), null);
     }
 
     public static void onShutdown() {
