@@ -3,12 +3,12 @@ package me.fingolfin.smp.necro;
 import me.fingolfin.smp.main;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Mob;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
@@ -19,11 +19,12 @@ public class necromancer implements CommandExecutor, Listener {
     public static List<String> mob_types = new ArrayList<>();
     //TODO: besseres upper limit
     public static final int MAX_MOBS = 75;
-    public static Map<EntityType, Integer> army = new HashMap<> ();
-    public String target = "";
-    public int mobs_atm = 0;
+    private static Map<EntityType, Integer> army = new HashMap<> ();
+    private String target = "";
+    private int mobs_atm = 0;
 
     private main plugin;
+    private boolean toggled;
 
     public necromancer(main plugin) {
         this.plugin = plugin;
@@ -64,8 +65,12 @@ public class necromancer implements CommandExecutor, Listener {
                 if (strings[0].equals("summon")) {
                     summon(commandSender);
                 } else {
-                    if (strings.equals("check")) {
+                    if (strings[0].equals("check")) {
                         check(commandSender);
+                    } else  {
+                        if (strings[0].equals("toggle")) {
+                            toggle(commandSender);
+                        }
                     }
                 }
                 break;
@@ -75,7 +80,7 @@ public class necromancer implements CommandExecutor, Listener {
                     case "target":
                         target = Bukkit.getPlayer(strings[1]).getName();
                         commandSender.sendMessage(ChatColor.BOLD +
-                                String.format("the attack target is {}", target));
+                                String.format("Target set to %s", target));
                         break;
                 }
         }
@@ -91,10 +96,16 @@ public class necromancer implements CommandExecutor, Listener {
 
     @EventHandler
     public void onMobKill(EntityDeathEvent event) {
+        //TODO: save to file
+        if (!toggled) return;
         if (event.getEntity().getKiller() == null) return;
         if (!(event.getEntity().getKiller().getName().equals("MINION912") || event.getEntity().getKiller().getName().equals("Fingolf1n"))) return;
         EntityType type = event.getEntityType();
-        if (mobs_atm > MAX_MOBS) return;
+        if (mobs_atm > MAX_MOBS) {
+            event.getEntity().getKiller().sendMessage(
+                ChatColor.GOLD + "MAXIMUM AMOUNT OF MOBS REACHED");
+            return;
+        }
         if (army.containsKey(type)) {
             army.replace(type, army.get(type) + 1);
             event.getEntity().getKiller().sendMessage(String.format("you killed a %s", type.name()));
@@ -103,12 +114,29 @@ public class necromancer implements CommandExecutor, Listener {
     }
 
     public void summon(CommandSender sender) {
-        return;
+        Location loc = ((Player) sender).getLocation();
+        World world = ((Player) sender).getWorld();
+        for (Map.Entry<EntityType, Integer> set : army.entrySet()) {
+            for (int i = 0; i < set.getValue(); i++) {
+                //TODO: add random spawn near player
+                Mob entity = (Mob) world.spawnEntity(loc, set.getKey());
+
+                Bukkit.getScheduler().runTaskLater(plugin, () ->  {
+                    entity.setTarget(Bukkit.getPlayer(target));
+                }, 3);
+            }
+            army.replace(set.getKey(), army.get(set.getKey()), 0);
+        }
     }
 
     public void check(CommandSender sender) {
         for (Map.Entry<EntityType, Integer> set : army.entrySet()) {
-            sender.sendMessage(String.format("you have "));
+            sender.sendMessage(String.format("you have %d of type %s", set.getValue(), set.getKey()));
         }
+    }
+
+    public void toggle(CommandSender sender) {
+        toggled = !this.toggled;
+        sender.sendMessage(String.format("counting mobs toggled to %b", toggled));
     }
 }
