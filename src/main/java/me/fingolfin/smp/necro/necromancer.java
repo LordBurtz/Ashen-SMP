@@ -59,6 +59,18 @@ public class necromancer implements CommandExecutor, Listener {
         army.put(EntityType.ZOGLIN, 0);
     }
 
+    public void add3ArmyFromFile() {
+        for (Map.Entry<EntityType, Integer> set : army.entrySet()) {
+            if (this.data.getConfig(file).contains("apprentice." + set.getKey())) {
+                army.replace(set.getKey(), data.getConfig(file).getInt("apprentice." + set.getKey()));
+            } else {
+                army.replace(set.getKey(), 0);
+                this.data.getConfig(file).set("apprentice." + set.getKey(), 0);
+            }
+        }
+        data.saveConfig(file);
+    }
+
     public void add2ArmyFromFile() {
         if (this.data.getConfig(file).contains("necro." + EntityType.ZOMBIE)) {
             army.replace(EntityType.ZOMBIE, data.getConfig(file).getInt("necro." + EntityType.ZOMBIE));
@@ -125,6 +137,8 @@ public class necromancer implements CommandExecutor, Listener {
         if (!(commandSender instanceof Player)) {
             commandSender.sendMessage("console is gay");
         }
+
+        if (!(commandSender.getName().equals("MINION912") || commandSender.getName().equals("Fingolf1n"))) return true;
 
         switch (strings.length) {
             case 0:
