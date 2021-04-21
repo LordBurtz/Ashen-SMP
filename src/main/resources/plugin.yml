@@ -16,4 +16,6 @@ commands:
   meditate:
     aliases: []
   necro:
-    aliases: []
+    aliases: ["army"]
+  apprentice:
+    aliases: ["app"]
