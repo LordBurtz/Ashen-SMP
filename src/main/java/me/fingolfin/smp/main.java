@@ -10,6 +10,7 @@ import me.fingolfin.smp.helloworld.*;
 import me.fingolfin.smp.horse.*;
 import me.fingolfin.smp.noSharp.noSharp;
 import me.fingolfin.smp.plotarmor.*;
+import me.fingolfin.smp.wizard.wizard;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class main extends JavaPlugin {
@@ -27,7 +28,7 @@ public final class main extends JavaPlugin {
         new effectsMercenarie(this);
         new effectsRoyal(this);
         new effectsMayor(this);
-
+        new wizard(this);
     }
 
     @Override
