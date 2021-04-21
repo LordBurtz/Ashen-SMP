@@ -27,23 +27,23 @@ public class noSharp implements Listener {
     }
 
     public void constructMap() {
-        types.put(Material.WOODEN_SWORD, 4);
-        types.put(Material.WOODEN_AXE, 7);
+        types.put(Material.WOODEN_SWORD, 7);
+        types.put(Material.WOODEN_AXE, 10);
 
-        types.put(Material.STONE_SWORD, 5);
-        types.put(Material.STONE_AXE, 9);
+        types.put(Material.STONE_SWORD, 8);
+        types.put(Material.STONE_AXE, 12);
 
-        types.put(Material.IRON_SWORD, 5);
-        types.put(Material.IRON_AXE, 9);
+        types.put(Material.IRON_SWORD, 8);
+        types.put(Material.IRON_AXE, 12);
 
-        types.put(Material.GOLDEN_SWORD, 4);
-        types.put(Material.GOLDEN_AXE, 7);
+        types.put(Material.GOLDEN_SWORD, 7);
+        types.put(Material.GOLDEN_AXE, 10);
 
-        types.put(Material.DIAMOND_SWORD, 7);
-        types.put(Material.DIAMOND_AXE, 9);
+        types.put(Material.DIAMOND_SWORD, 10);
+        types.put(Material.DIAMOND_AXE, 12);
 
-        types.put(Material.NETHERITE_SWORD, 8);
-        types.put(Material.NETHERITE_AXE, 10);
+        types.put(Material.NETHERITE_SWORD, 11);
+        types.put(Material.NETHERITE_AXE, 13);
     }
 
     @EventHandler

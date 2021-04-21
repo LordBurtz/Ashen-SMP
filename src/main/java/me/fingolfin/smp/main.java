@@ -1,6 +1,7 @@
 package me.fingolfin.smp;
 
 import me.fingolfin.smp.apprentice.apprentice;
+import me.fingolfin.smp.effects.effectsMayor;
 import me.fingolfin.smp.effects.effectsMercenarie;
 import me.fingolfin.smp.effects.effectsRoyal;
 import me.fingolfin.smp.meditation.meditation;
@@ -21,10 +22,11 @@ public final class main extends JavaPlugin {
         new damageEvent(this);
         new meditation(this);
         new necromancer(this);
+        new apprentice(this);
         new noSharp(this);
         new effectsMercenarie(this);
-        new apprentice(this);
         new effectsRoyal(this);
+        new effectsMayor(this);
 
     }
 
