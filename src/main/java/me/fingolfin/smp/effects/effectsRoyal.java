@@ -21,7 +21,6 @@ public class effectsRoyal implements Listener {
     @EventHandler
     public void onRespawn(PlayerRespawnEvent event) {
         Player player = event.getPlayer();
-        //TODO: remove myself
         if (!player.getName().equals("Celestrom")) return;
         Bukkit.getScheduler().runTaskLater(plugin, () -> {
             player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, Integer.MAX_VALUE, 0, false, false, false));

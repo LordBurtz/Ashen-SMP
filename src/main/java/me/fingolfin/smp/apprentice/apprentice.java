@@ -36,7 +36,6 @@ public class apprentice implements Listener, CommandExecutor {
         Bukkit.getPluginManager().registerEvents(this, plugin);
         this.data = new data(plugin, file);
         data.saveDefaultConfig(file);
-        //TODO: Make Hashmap saveable !IMPORTANT!
         initializeArny();
         add2ArmyFromFile();
         getMobs();
@@ -72,7 +71,10 @@ public class apprentice implements Listener, CommandExecutor {
         if (!(commandSender instanceof Player)) {
             commandSender.sendMessage("console is gay");
         }
-        if (!(commandSender.getName().equals("Optinux") || commandSender.getName().equals("LordBurtz"))) return true;
+        if (!(commandSender.getName().equals("Optinux"))) {
+            commandSender.sendMessage(ChatColor.ITALIC  + "" + ChatColor.GRAY + "you are not le apprentice");
+            return true;
+        }
         switch (strings.length) {
             case 0:
                 commandSender.sendMessage("you need more args");
@@ -110,7 +112,6 @@ public class apprentice implements Listener, CommandExecutor {
 
     @EventHandler
     public void onMobKill(EntityDeathEvent event) {
-        //TODO: save to file
         if (!toggled) return;
         if (event.getEntity().getKiller() == null) return;
         if (!(event.getEntity().getKiller().getName().equals("Optinux") || event.getEntity().getKiller().getName().equals("LordBurtz"))) return;
@@ -135,9 +136,7 @@ public class apprentice implements Listener, CommandExecutor {
         World world = ((Player) sender).getWorld();
         for (Map.Entry<EntityType, Integer> set : army.entrySet()) {
             for (int i = 0; i < set.getValue(); i++) {
-                //TODO: add random spawn near player
                 Mob entity = (Mob) world.spawnEntity(loc, set.getKey());
-
                 Bukkit.getScheduler().runTaskLater(plugin, () ->  {
                     entity.setTarget(Bukkit.getPlayer(target));
                 }, 20);

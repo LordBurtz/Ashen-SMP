@@ -8,10 +8,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.inventory.ItemStack;
 
 import java.util.HashMap;
-import java.util.Map;
 import java.util.logging.Level;
 
 import static java.lang.String.valueOf;
@@ -48,8 +46,7 @@ public class noSharp implements Listener {
 
     @EventHandler
     public void onDamageEvent(EntityDamageByEntityEvent event) {
-        //TODO: REMOVE MYSELF
-        if (!(event.getDamager().getName().equals("Fingolf1n") || event.getDamager().getName().equals("Fallen_Angel0103"))) return;
+        if (!(event.getDamager().getName().equals("Fallen_Angel0103"))) return;
         if (!event.getCause().equals(EntityDamageEvent.DamageCause.ENTITY_ATTACK)) return;
         Material item = ((Player) event.getDamager()).getInventory().getItemInMainHand().getType();
         if (!types.containsKey(item)) return;

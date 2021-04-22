@@ -21,8 +21,7 @@ public class effectsMercenarie implements Listener {
     @EventHandler
     public void onRespawn(PlayerRespawnEvent event) {
         Player player = event.getPlayer();
-        //TODO: remove myself
-        if (!(player.getName().equals("Fingolf1n") || player.getName().equals("_Ecl1pse_"))) return;
+        if (!(player.getName().equals("_Ecl1pse_"))) return;
         Bukkit.getScheduler().runTaskLater(plugin, () -> {
             player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, Integer.MAX_VALUE, 0, false, false, false));
         }, 20);
@@ -32,7 +31,7 @@ public class effectsMercenarie implements Listener {
     public void onFirstJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
         if (player.hasPlayedBefore()) return;
-        if (!(player.getName().equals("Fingolf1n") || player.getName().equals("_Ecl1pse_"))) return;
+        if (!(player.getName().equals("_Ecl1pse_"))) return;
         player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, Integer.MAX_VALUE, 0, false, false));
     }
 }

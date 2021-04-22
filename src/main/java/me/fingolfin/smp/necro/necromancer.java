@@ -33,9 +33,8 @@ public class necromancer implements CommandExecutor, Listener {
         Bukkit.getPluginManager().registerEvents(this, plugin);
         this.data = new data(plugin, file);
         data.saveDefaultConfig(file);
-        //TODO: Make Hashmap saveable !IMPORTANT!
         initializeArny();
-        add2ArmyFromFile();
+        add3ArmyFromFile();
         getMobs();
     }
 
@@ -61,16 +60,17 @@ public class necromancer implements CommandExecutor, Listener {
 
     public void add3ArmyFromFile() {
         for (Map.Entry<EntityType, Integer> set : army.entrySet()) {
-            if (this.data.getConfig(file).contains("apprentice." + set.getKey())) {
-                army.replace(set.getKey(), data.getConfig(file).getInt("apprentice." + set.getKey()));
+            if (this.data.getConfig(file).contains("necro." + set.getKey())) {
+                army.replace(set.getKey(), data.getConfig(file).getInt("necro." + set.getKey()));
             } else {
                 army.replace(set.getKey(), 0);
-                this.data.getConfig(file).set("apprentice." + set.getKey(), 0);
+                this.data.getConfig(file).set("necro." + set.getKey(), 0);
             }
         }
         data.saveConfig(file);
     }
 
+    @Deprecated
     public void add2ArmyFromFile() {
         if (this.data.getConfig(file).contains("necro." + EntityType.ZOMBIE)) {
             army.replace(EntityType.ZOMBIE, data.getConfig(file).getInt("necro." + EntityType.ZOMBIE));
@@ -138,7 +138,10 @@ public class necromancer implements CommandExecutor, Listener {
             commandSender.sendMessage("console is gay");
         }
 
-        if (!(commandSender.getName().equals("MINION912") || commandSender.getName().equals("Fingolf1n"))) return true;
+        if (!(commandSender.getName().equals("MINION912") || commandSender.getName().equals("Fingolf1n"))) {
+            commandSender.sendMessage(ChatColor.ITALIC  + "" + ChatColor.GRAY + "you are not le necromancer");
+            return true;
+        }
 
         switch (strings.length) {
             case 0:
@@ -175,15 +178,8 @@ public class necromancer implements CommandExecutor, Listener {
         return true;
     }
 
-            //TODO: add type to mob_types if not there
-            //TODO: add return command to check for the mobs present
-            //TODO: add mob spawn
-            //TODO: add set target
-            //TODO: do necromancer prefix (/necro??)
-
     @EventHandler
     public void onMobKill(EntityDeathEvent event) {
-        //TODO: save to file
         if (!toggled) return;
         if (event.getEntity().getKiller() == null) return;
         if (!(event.getEntity().getKiller().getName().equals("MINION912") || event.getEntity().getKiller().getName().equals("Fingolf1n"))) return;
@@ -209,7 +205,6 @@ public class necromancer implements CommandExecutor, Listener {
         World world = ((Player) sender).getWorld();
         for (Map.Entry<EntityType, Integer> set : army.entrySet()) {
             for (int i = 0; i < set.getValue(); i++) {
-                //TODO: add random spawn near player
                 Mob entity = (Mob) world.spawnEntity(loc, set.getKey());
 
                 Bukkit.getScheduler().runTaskLater(plugin, () ->  {
