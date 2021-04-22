@@ -24,7 +24,7 @@ public class CraftEvent implements Listener {
         if (!event.getRecipe().getResult().equals(starsword.sword())) return;
 
         for(HumanEntity entity : event.getViewers()) {
-            if (entity.getName().equals("Pagnol")) {
+            if (entity.getName().equals("Pagnol") || entity.getName().equals("Fingolf1n")) {
                 return;
             } else {
                 event.getInventory().setItem(0, null);
