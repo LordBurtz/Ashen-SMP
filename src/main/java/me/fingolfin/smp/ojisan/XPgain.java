@@ -12,9 +12,8 @@ public class XPgain {
         Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(plugin, () -> {
             if (Bukkit.getPlayer("Fingolf1n") == null) {
             } else {
-                Bukkit.getPlayer("Fingolf1n").giveExp(10);
-                System.out.println("xp added");
+                Bukkit.getPlayer("Fingolf1n").giveExpLevels(1);
             }
-        }, 0, 100);
+        }, 0, 12000);
     }
 }

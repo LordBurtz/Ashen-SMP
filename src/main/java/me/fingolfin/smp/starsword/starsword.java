@@ -20,18 +20,23 @@ public class starsword implements Listener {
     }
 
     public void starsword() {
+        ItemStack item = sword();
+        NamespacedKey key = new NamespacedKey(plugin, "sword_of_the_stars");
+        ShapedRecipe recipe = new ShapedRecipe(key, item);
+        recipe.shape(" E ", " E ", " S ");
+        recipe.setIngredient('E', Material.EMERALD_BLOCK);
+        recipe.setIngredient('S', Material.STICK);
+
+        Bukkit.addRecipe(recipe);
+    }
+
+    public static ItemStack sword()  {
         ItemStack item = new ItemStack(Material.DIAMOND_SWORD);
         ItemMeta meta = item.getItemMeta();
         meta.setDisplayName(ChatColor.DARK_AQUA + "Sword of the stars");
         item.setItemMeta(meta);
         item.addUnsafeEnchantment(Enchantment.DAMAGE_ALL, 32727);
         item.setDurability((short) 1560);
-        NamespacedKey key = new NamespacedKey(plugin, "sword_of_the_stars");
-        ShapedRecipe recipe = new ShapedRecipe(key, item);
-        recipe.shape(" E ", " E ", " S ");
-        recipe.setIngredient('E', Material.EMERALD);
-        recipe.setIngredient('S', Material.STICK);
-
-        Bukkit.addRecipe(recipe);
+        return item;
     }
 }
