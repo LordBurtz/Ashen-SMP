@@ -20,7 +20,7 @@ public class Ramen implements Listener {
 
     @EventHandler
     public void onConsumeSoup(PlayerItemConsumeEvent event) {
-        if (!event.getItem().equals(new ItemStack(Material.MUSHROOM_STEM))) return;
+        if (!event.getItem().getType().equals(Material.MUSHROOM_STEW)) return;
         if (!event.getItem().getItemMeta().getDisplayName().equals("Ramen")) return;
         event.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 400, 0));
     }

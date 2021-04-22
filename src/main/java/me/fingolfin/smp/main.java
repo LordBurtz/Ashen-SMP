@@ -9,6 +9,7 @@ import me.fingolfin.smp.necro.*;
 import me.fingolfin.smp.helloworld.*;
 import me.fingolfin.smp.horse.*;
 import me.fingolfin.smp.noSharp.noSharp;
+import me.fingolfin.smp.ojisan.XPgain;
 import me.fingolfin.smp.plotarmor.*;
 import me.fingolfin.smp.specialItem.Ramen;
 import me.fingolfin.smp.wizard.wizard;
@@ -31,6 +32,7 @@ public final class main extends JavaPlugin {
         new effectsMayor(this);
         new wizard(this);
         new Ramen(this);
+        new XPgain(this);
     }
 
     @Override
