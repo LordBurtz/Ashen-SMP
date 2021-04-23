@@ -10,7 +10,7 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 public class Ramen implements Listener {
-    private main plugin;
+    private final main plugin;
 
     public Ramen(main plugin) {
         this.plugin = plugin;

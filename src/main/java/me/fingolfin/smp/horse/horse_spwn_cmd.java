@@ -4,13 +4,15 @@ import me.fingolfin.smp.main;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.*;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Horse;
+import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 public class horse_spwn_cmd  implements CommandExecutor {
 
-    private main plugin;
+    private final main plugin;
     private Player player;
 
     public horse_spwn_cmd(main plugin) {

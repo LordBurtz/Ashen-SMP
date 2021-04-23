@@ -4,7 +4,7 @@ import me.fingolfin.smp.main;
 import org.bukkit.Bukkit;
 
 public class XPgain {
-    private main plugin;
+    private final main plugin;
 
     public XPgain(main plugin) {
         this.plugin = plugin;

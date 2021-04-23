@@ -12,10 +12,8 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import java.util.HashMap;
 import java.util.logging.Level;
 
-import static java.lang.String.valueOf;
-
 public class noSharp implements Listener {
-    private main plugin;
+    private final main plugin;
     public HashMap<Material, Integer> types = new HashMap<>();
 
     public noSharp(main plugin) {
@@ -51,6 +49,6 @@ public class noSharp implements Listener {
         Material item = ((Player) event.getDamager()).getInventory().getItemInMainHand().getType();
         if (!types.containsKey(item)) return;
         event.setDamage(types.get(item));
-        Bukkit.getLogger().log(Level.WARNING, "damge: " + valueOf(event.getFinalDamage()));
+        Bukkit.getLogger().log(Level.WARNING, "damge: " + event.getFinalDamage());
     }
 }

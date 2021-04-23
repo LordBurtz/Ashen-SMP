@@ -1,15 +1,18 @@
 package me.fingolfin.smp.data;
 
 import me.fingolfin.smp.main;
-import me.fingolfin.smp.meditation.meditation;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import java.io.*;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.logging.Level;
 
 public class data {
 
-    private main plugin;
+    private final main plugin;
     private FileConfiguration dataConfig = null;
     private File configFile = null;
 

@@ -5,12 +5,10 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.event.inventory.PrepareItemCraftEvent;
-import org.bukkit.inventory.ItemStack;
 
 public class CraftEvent implements Listener {
-    private main plugin;
+    private final main plugin;
 
     public CraftEvent(main plugin) {
         this.plugin = plugin;

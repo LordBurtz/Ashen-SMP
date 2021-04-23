@@ -15,7 +15,7 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.potion.PotionType;
 
 public class effectsMayor implements Listener {
-    private main plugin;
+    private final main plugin;
 
     public effectsMayor(main plugin) {
         this.plugin = plugin;

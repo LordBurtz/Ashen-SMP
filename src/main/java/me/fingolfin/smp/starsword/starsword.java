@@ -12,7 +12,7 @@ import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
 
 public class starsword implements Listener {
-    private main plugin;
+    private final main plugin;
 
     public starsword(main plugin) {
         this.plugin = plugin;

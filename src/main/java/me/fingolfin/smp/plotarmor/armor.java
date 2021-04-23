@@ -14,7 +14,7 @@ import java.util.Collections;
 
 public class armor implements CommandExecutor {
 
-    private main plugin;
+    private final main plugin;
     private Player player;
 
     public armor(main plugin) {

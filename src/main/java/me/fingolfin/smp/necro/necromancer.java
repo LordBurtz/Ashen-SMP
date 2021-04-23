@@ -9,23 +9,26 @@ import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.*;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Mob;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
 public class necromancer implements CommandExecutor, Listener {
     public static final int MAX_MOBS = 75;
     public String file = "army.yml";
 
-    private static Map<EntityType, Integer> army = new HashMap<> ();
+    private static final Map<EntityType, Integer> army = new HashMap<> ();
     private String target = "";
     private int mobs_atm = 0;
-    private main plugin;
+    private final main plugin;
     private boolean toggled;
-    private data data;
+    private final data data;
 
     public necromancer(main plugin) {
         this.plugin = plugin;
@@ -136,9 +139,10 @@ public class necromancer implements CommandExecutor, Listener {
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
         if (!(commandSender instanceof Player)) {
             commandSender.sendMessage("console is gay");
+            return true;
         }
 
-        if (!(commandSender.getName().equals("MINION912") || commandSender.getName().equals("Fingolf1n"))) {
+        if (!(commandSender.getName().equals("MINION912"))) {
             commandSender.sendMessage(ChatColor.ITALIC  + "" + ChatColor.GRAY + "you are not le necromancer");
             return true;
         }
@@ -193,7 +197,7 @@ public class necromancer implements CommandExecutor, Listener {
             army.replace(type, army.get(type) + 1);
             event.getEntity().getKiller().sendMessage(String.format("you killed a %s", type.name()));
             mobs_atm++;
-            data.getConfig(file).set("necro." + type, data.getConfig(file).getInt("necro." + type.toString()) + 1);
+            data.getConfig(file).set("necro." + type, data.getConfig(file).getInt("necro." + type) + 1);
             data.getConfig(file).set("necro.mobsKilled", mobs_atm);
             data.saveConfig(file);
 

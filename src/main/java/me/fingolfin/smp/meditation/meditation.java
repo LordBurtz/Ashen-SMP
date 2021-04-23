@@ -1,7 +1,7 @@
 package me.fingolfin.smp.meditation;
 
-import me.fingolfin.smp.*;
 import me.fingolfin.smp.data.data;
+import me.fingolfin.smp.main;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
@@ -9,22 +9,20 @@ import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerTeleportEvent;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class meditation implements CommandExecutor, Listener {
 
-    private main plugin;
+    private final main plugin;
     private Player player;
-    private static HashMap<String, Location> meditators = new HashMap<>();
-    private me.fingolfin.smp.data.data data;
+    private static final HashMap<String, Location> meditators = new HashMap<>();
+    private final me.fingolfin.smp.data.data data;
     private final String config_file = "meditation.yml";
 
     public meditation(main plugin) {

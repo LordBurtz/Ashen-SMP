@@ -23,12 +23,12 @@ public class apprentice implements Listener, CommandExecutor {
     public static final int MAX_MOBS = 75;
     public String file = "apprentice.yml";
 
-    private static Map<EntityType, Integer> army = new HashMap<>();
+    private static final Map<EntityType, Integer> army = new HashMap<>();
     private String target = "";
     private int mobs_atm = 0;
-    private main plugin;
+    private final main plugin;
     private boolean toggled;
-    private me.fingolfin.smp.data.data data;
+    private final me.fingolfin.smp.data.data data;
 
     public apprentice(main plugin) {
         this.plugin = plugin;
@@ -125,7 +125,7 @@ public class apprentice implements Listener, CommandExecutor {
             army.replace(type, army.get(type) + 1);
             event.getEntity().getKiller().sendMessage(String.format("you killed a %s", type.name()));
             mobs_atm++;
-            data.getConfig(file).set("apprentice." + type, data.getConfig(file).getInt("apprentice." + type.toString()) + 1);
+            data.getConfig(file).set("apprentice." + type, data.getConfig(file).getInt("apprentice." + type) + 1);
             data.getConfig(file).set("apprentice.mobsKilled", mobs_atm);
             data.saveConfig(file);
         }

@@ -13,7 +13,7 @@ import java.util.List;
 
 public class damageEvent implements Listener {
 
-    private main plugin;
+    private final main plugin;
 
     private static final List<EntityDamageEvent.DamageCause> damage_types = new ArrayList<>();
 

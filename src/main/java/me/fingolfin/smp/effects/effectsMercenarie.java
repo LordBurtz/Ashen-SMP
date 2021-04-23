@@ -11,7 +11,7 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 public class effectsMercenarie implements Listener {
-    private main plugin;
+    private final main plugin;
 
     public effectsMercenarie(main plugin) {
         this.plugin = plugin;
