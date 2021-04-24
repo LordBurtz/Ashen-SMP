@@ -12,6 +12,7 @@ import me.fingolfin.smp.noSharp.noSharp;
 import me.fingolfin.smp.ojisan.XPgain;
 import me.fingolfin.smp.plotarmor.armor;
 import me.fingolfin.smp.plotarmor.damageEvent;
+import me.fingolfin.smp.specialItem.Betonwasser;
 import me.fingolfin.smp.specialItem.Ramen;
 import me.fingolfin.smp.starsword.CraftEvent;
 import me.fingolfin.smp.starsword.starsword;
@@ -38,6 +39,7 @@ public final class main extends JavaPlugin {
         new XPgain(this);
         new starsword(this);
         new CraftEvent(this);
+        new Betonwasser(this);
     }
 
     @Override
