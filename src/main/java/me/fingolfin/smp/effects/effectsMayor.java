@@ -15,6 +15,8 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.potion.PotionType;
 
+import java.util.logging.Level;
+
 public class effectsMayor implements Listener {
     public String mayor;
     
@@ -22,7 +24,9 @@ public class effectsMayor implements Listener {
 
     public effectsMayor(main plugin) {
         this.plugin = plugin;
+        setMayor();
         Bukkit.getPluginManager().registerEvents(this, plugin);
+        Bukkit.getServer().getLogger().log(Level.INFO, String.format("[SMP] The mayor is %s", mayor));
     }
 
     private void setMayor() {
