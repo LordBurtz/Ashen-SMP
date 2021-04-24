@@ -18,6 +18,7 @@ import org.bukkit.event.entity.EntityDeathEvent;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
 
 public class apprentice implements Listener, CommandExecutor {
     public static final int MAX_MOBS = 75;
@@ -41,6 +42,7 @@ public class apprentice implements Listener, CommandExecutor {
         add2ArmyFromFile();
         getMobs();
         setApprentice();
+        Bukkit.getServer().getLogger().log(Level.INFO, String.format("[SMP] The apprentice is %s", apprentice));
     }
 
     private void setApprentice() {
