@@ -1,5 +1,6 @@
 package me.fingolfin.smp.noSharp;
 
+import me.fingolfin.smp.data.data;
 import me.fingolfin.smp.main;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -13,13 +14,28 @@ import java.util.HashMap;
 import java.util.logging.Level;
 
 public class noSharp implements Listener {
-    private final main plugin;
     public HashMap<Material, Integer> types = new HashMap<>();
+    public String mercenary;
+
+    private final main plugin;
 
     public noSharp(main plugin) {
         this.plugin = plugin;
         Bukkit.getPluginManager().registerEvents(this, plugin);
         constructMap();
+        setMercenary();
+    }
+
+    private void setMercenary() {
+        data data = new data(plugin, "config.yml");
+        data.saveDefaultConfig("config.yml");
+        if (data.getConfig("config.yml").contains("mercenary.name")) {
+            mercenary = data.getConfig("config.yml").getString("mercenary.name");
+        } else {
+            data.getConfig("config.yml").set("mercenary.name", "_Ecl1pse_");
+            mercenary = "_Ecl1pse_";
+        }
+        data.saveConfig("config.yml");
     }
 
     public void constructMap() {
@@ -44,7 +60,7 @@ public class noSharp implements Listener {
 
     @EventHandler
     public void onDamageEvent(EntityDamageByEntityEvent event) {
-        if (!(event.getDamager().getName().equals("_Ecl1pse_"))) return;
+        if (!(event.getDamager().getName().equals(mercenary))) return;
         if (!event.getCause().equals(EntityDamageEvent.DamageCause.ENTITY_ATTACK)) return;
         Material item = ((Player) event.getDamager()).getInventory().getItemInMainHand().getType();
         if (!types.containsKey(item)) return;
