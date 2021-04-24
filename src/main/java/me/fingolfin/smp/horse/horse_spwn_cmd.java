@@ -25,7 +25,7 @@ public class horse_spwn_cmd  implements CommandExecutor {
         if (!(commandSender instanceof Player)) {
             commandSender.sendMessage("dum shyte only player lol");
         } else {
-            if (commandSender.getName().equals("Fallen_Angel0103") || commandSender.isOp()) {
+            if (commandSender.getName().equals("_Ecl1pse_") || commandSender.isOp()) {
 
                 player = (Player) commandSender;
                 Horse horse = (Horse) player.getWorld().spawnEntity(player.getLocation(), EntityType.HORSE);

@@ -44,7 +44,7 @@ public class noSharp implements Listener {
 
     @EventHandler
     public void onDamageEvent(EntityDamageByEntityEvent event) {
-        if (!(event.getDamager().getName().equals("Fallen_Angel0103"))) return;
+        if (!(event.getDamager().getName().equals("_Ecl1pse_"))) return;
         if (!event.getCause().equals(EntityDamageEvent.DamageCause.ENTITY_ATTACK)) return;
         Material item = ((Player) event.getDamager()).getInventory().getItemInMainHand().getType();
         if (!types.containsKey(item)) return;
