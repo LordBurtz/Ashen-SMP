@@ -18,10 +18,12 @@ import org.bukkit.event.entity.EntityDeathEvent;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
 
 public class necromancer implements CommandExecutor, Listener {
     public static final int MAX_MOBS = 75;
     public String file = "army.yml";
+    public String necromancer;
 
     private static final Map<EntityType, Integer> army = new HashMap<> ();
     private String target = "";
@@ -39,6 +41,17 @@ public class necromancer implements CommandExecutor, Listener {
         initializeArny();
         add3ArmyFromFile();
         getMobs();
+        setNecromancer();
+        Bukkit.getServer().getLogger().log(Level.INFO, String.format("[SMP] The necromancer is %s", necromancer));
+    }
+
+    private void setNecromancer() {
+        if (data.getConfig("config.yml").contains("necro.name")) {
+            necromancer = data.getConfig("config.yml").getString("necro.name");
+        } else {
+            data.getConfig("config.yml").set("necro.name", "MINION912");
+        }
+        data.saveConfig("config.yml");
     }
 
     private void getMobs() {
@@ -142,7 +155,7 @@ public class necromancer implements CommandExecutor, Listener {
             return true;
         }
 
-        if (!(commandSender.getName().equals("MINION912"))) {
+        if (!(commandSender.getName().equals("necromancer"))) {
             commandSender.sendMessage(ChatColor.ITALIC  + "" + ChatColor.GRAY + "you are not le necromancer");
             return true;
         }
@@ -186,7 +199,7 @@ public class necromancer implements CommandExecutor, Listener {
     public void onMobKill(EntityDeathEvent event) {
         if (!toggled) return;
         if (event.getEntity().getKiller() == null) return;
-        if (!(event.getEntity().getKiller().getName().equals("MINION912") || event.getEntity().getKiller().getName().equals("Fingolf1n"))) return;
+        if (!(event.getEntity().getKiller().getName().equals("necromancer"))) return;
         EntityType type = event.getEntityType();
         if (mobs_atm > MAX_MOBS) {
             event.getEntity().getKiller().sendMessage(

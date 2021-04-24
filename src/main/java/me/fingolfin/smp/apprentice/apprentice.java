@@ -18,10 +18,12 @@ import org.bukkit.event.entity.EntityDeathEvent;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
 
 public class apprentice implements Listener, CommandExecutor {
     public static final int MAX_MOBS = 75;
     public String file = "apprentice.yml";
+    public String apprentice;
 
     private static final Map<EntityType, Integer> army = new HashMap<>();
     private String target = "";
@@ -39,6 +41,18 @@ public class apprentice implements Listener, CommandExecutor {
         initializeArny();
         add2ArmyFromFile();
         getMobs();
+        setApprentice();
+        Bukkit.getServer().getLogger().log(Level.INFO, String.format("[SMP] The apprentice is %s", apprentice));
+    }
+
+    private void setApprentice() {
+        if (data.getConfig("config.yml").contains("apprentice.name")) {
+            apprentice = data.getConfig("config.yml").getString("apprentice.name");
+        } else {
+            data.getConfig("config.yml").set("apprentice.name", "Optinux");
+            apprentice = "Optinux";
+        }
+        data.saveConfig("config.yml");
     }
 
     private void getMobs() {
@@ -47,6 +61,7 @@ public class apprentice implements Listener, CommandExecutor {
         } else {
             data.getConfig(file).set("apprentice.mobsKilled", 0);
         }
+        data.saveConfig(file);
     }
 
     private void initializeArny() {
@@ -71,7 +86,7 @@ public class apprentice implements Listener, CommandExecutor {
         if (!(commandSender instanceof Player)) {
             commandSender.sendMessage("console is gay");
         }
-        if (!(commandSender.getName().equals("Optinux"))) {
+        if (!(commandSender.getName().equals(apprentice))) {
             commandSender.sendMessage(ChatColor.ITALIC  + "" + ChatColor.GRAY + "you are not le apprentice");
             return true;
         }
@@ -114,7 +129,7 @@ public class apprentice implements Listener, CommandExecutor {
     public void onMobKill(EntityDeathEvent event) {
         if (!toggled) return;
         if (event.getEntity().getKiller() == null) return;
-        if (!(event.getEntity().getKiller().getName().equals("Optinux") || event.getEntity().getKiller().getName().equals("LordBurtz"))) return;
+        if (!(event.getEntity().getKiller().getName().equals(apprentice))) return;
         EntityType type = event.getEntityType();
         if (mobs_atm > MAX_MOBS) {
             event.getEntity().getKiller().sendMessage(
