@@ -29,6 +29,7 @@ public class apprentice implements Listener, CommandExecutor {
     private final main plugin;
     private boolean toggled;
     private final me.fingolfin.smp.data.data data;
+    private String apprentice;
 
     public apprentice(main plugin) {
         this.plugin = plugin;
@@ -39,6 +40,16 @@ public class apprentice implements Listener, CommandExecutor {
         initializeArny();
         add2ArmyFromFile();
         getMobs();
+        setApprentice();
+    }
+
+    private void setApprentice() {
+        if (data.getConfig(file).contains("apprentice.name")) {
+            apprentice = data.getConfig(file).getString("apprentice.name");
+        } else {
+            data.getConfig(file).set("apprentice.name", "Optinux");
+        }
+        data.saveConfig(file);
     }
 
     private void getMobs() {
@@ -47,6 +58,7 @@ public class apprentice implements Listener, CommandExecutor {
         } else {
             data.getConfig(file).set("apprentice.mobsKilled", 0);
         }
+        data.saveConfig(file);
     }
 
     private void initializeArny() {
@@ -71,7 +83,7 @@ public class apprentice implements Listener, CommandExecutor {
         if (!(commandSender instanceof Player)) {
             commandSender.sendMessage("console is gay");
         }
-        if (!(commandSender.getName().equals("Optinux"))) {
+        if (!(commandSender.getName().equals(apprentice))) {
             commandSender.sendMessage(ChatColor.ITALIC  + "" + ChatColor.GRAY + "you are not le apprentice");
             return true;
         }
@@ -114,7 +126,7 @@ public class apprentice implements Listener, CommandExecutor {
     public void onMobKill(EntityDeathEvent event) {
         if (!toggled) return;
         if (event.getEntity().getKiller() == null) return;
-        if (!(event.getEntity().getKiller().getName().equals("Optinux") || event.getEntity().getKiller().getName().equals("LordBurtz"))) return;
+        if (!(event.getEntity().getKiller().getName().equals(apprentice))) return;
         EntityType type = event.getEntityType();
         if (mobs_atm > MAX_MOBS) {
             event.getEntity().getKiller().sendMessage(
