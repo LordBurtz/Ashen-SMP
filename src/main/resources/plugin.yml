@@ -4,7 +4,7 @@ main: me.fingolfin.smp.main
 api-version: 1.16
 authors: [ Fingolfin ]
 description: plugins for le smp
-website: you.are.gay
+website:  https://discord.gg/QZeNhWq6hv
 
 commands:
   hello:
