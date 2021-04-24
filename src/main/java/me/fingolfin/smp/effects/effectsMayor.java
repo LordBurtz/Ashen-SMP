@@ -35,7 +35,7 @@ public class effectsMayor implements Listener {
         if (data.getConfig("config.yml").contains("mayor.name")) {
             mayor = data.getConfig("config.yml").getString("mayor.name");
         } else {
-            data.getConfig("config.yml").set("mayor.name", "_Ecl1pse_");
+            data.getConfig("config.yml").set("mayor.name", "GrueziHD");
             mayor = "GrueziHD";
         }
         data.saveConfig("config.yml");
