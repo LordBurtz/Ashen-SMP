@@ -18,6 +18,7 @@ import org.bukkit.event.entity.EntityDeathEvent;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
 
 public class necromancer implements CommandExecutor, Listener {
     public static final int MAX_MOBS = 75;
@@ -41,15 +42,16 @@ public class necromancer implements CommandExecutor, Listener {
         add3ArmyFromFile();
         getMobs();
         setNecromancer();
+        Bukkit.getServer().getLogger().log(Level.INFO, String.format("[SMP] The necromancer is %s", necromancer));
     }
 
     private void setNecromancer() {
-        if (data.getConfig(file).contains("necro.name")) {
-            necromancer = data.getConfig(file).getString("necro.name");
+        if (data.getConfig("config.yml").contains("necro.name")) {
+            necromancer = data.getConfig("config.yml").getString("necro.name");
         } else {
-            data.getConfig(file).set("necro.name", "MINION912");
+            data.getConfig("config.yml").set("necro.name", "MINION912");
         }
-        data.saveConfig(file);
+        data.saveConfig("config.yml");
     }
 
     private void getMobs() {

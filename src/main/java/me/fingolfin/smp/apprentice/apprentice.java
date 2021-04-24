@@ -46,12 +46,13 @@ public class apprentice implements Listener, CommandExecutor {
     }
 
     private void setApprentice() {
-        if (data.getConfig(file).contains("apprentice.name")) {
-            apprentice = data.getConfig(file).getString("apprentice.name");
+        if (data.getConfig("config.yml").contains("apprentice.name")) {
+            apprentice = data.getConfig("config.yml").getString("apprentice.name");
         } else {
-            data.getConfig(file).set("apprentice.name", "Optinux");
+            data.getConfig("config.yml").set("apprentice.name", "Optinux");
+            apprentice = "Optinux";
         }
-        data.saveConfig(file);
+        data.saveConfig("config.yml");
     }
 
     private void getMobs() {
