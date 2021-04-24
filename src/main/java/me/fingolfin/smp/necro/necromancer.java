@@ -214,6 +214,18 @@ public class necromancer implements CommandExecutor, Listener {
                 Bukkit.getScheduler().runTaskLater(plugin, () ->  {
                     entity.setTarget(Bukkit.getPlayer(target));
                 }, 20);
+
+                Bukkit.getScheduler().runTaskLater(plugin, () ->  {
+                    entity.setTarget(Bukkit.getPlayer(target));
+                }, 40);
+
+                Bukkit.getScheduler().runTaskLater(plugin, () ->  {
+                    entity.setTarget(Bukkit.getPlayer(target));
+                }, 80);
+
+                Bukkit.getScheduler().runTaskLater(plugin, () ->  {
+                    entity.setTarget(Bukkit.getPlayer(target));
+                }, 160);
             }
             army.replace(set.getKey(), army.get(set.getKey()), 0);
             data.getConfig(file).set("necro." + set.getKey().toString(), 0);
