@@ -23,6 +23,7 @@ import java.util.logging.Level;
 public class apprentice implements Listener, CommandExecutor {
     public static final int MAX_MOBS = 75;
     public String file = "apprentice.yml";
+    public String apprentice;
 
     private static final Map<EntityType, Integer> army = new HashMap<>();
     private String target = "";
@@ -30,7 +31,6 @@ public class apprentice implements Listener, CommandExecutor {
     private final main plugin;
     private boolean toggled;
     private final me.fingolfin.smp.data.data data;
-    private String apprentice;
 
     public apprentice(main plugin) {
         this.plugin = plugin;
