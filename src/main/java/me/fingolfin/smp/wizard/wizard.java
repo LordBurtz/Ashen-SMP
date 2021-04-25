@@ -1,5 +1,6 @@
 package me.fingolfin.smp.wizard;
 
+import me.fingolfin.smp.data.data;
 import me.fingolfin.smp.main;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -12,21 +13,39 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 
+import java.util.logging.Level;
+
 public class wizard implements Listener {
+    public final int COOLDOWN = 17;
+    public static String wizard;
+
     private final main plugin;
     private long last_shoot;
-    public final int COOLDOWN = 17;
 
     public wizard(main plugin) {
         this.plugin = plugin;
         Bukkit.getPluginManager().registerEvents(this, plugin);
         last_shoot = 0L;
+        setWizard();
+        Bukkit.getServer().getLogger().log(Level.INFO, String.format("[SMP] The wizard is %s", wizard));
+    }
+
+    private void setWizard() {
+        data data = new data(plugin, "config.yml");
+        data.saveDefaultConfig("config.yml");
+        if (data.getConfig("config.yml").contains("wizard.name")) {
+            wizard = data.getConfig("config.yml").getString("wizard.name");
+        } else {
+            data.getConfig("config.yml").set("wizard.name", "Pagnol");
+            wizard = "Pagnol";
+        }
+        data.saveConfig("config.yml");
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onRightClickFireball(PlayerInteractEvent event) {
         Player player = event.getPlayer();
-        if (!(player.getName().equals("Pagnol"))) return;
+        if (!(player.getName().equals(wizard))) return;
         if (!(player.getInventory().getItemInMainHand().getType().equals(Material.BLAZE_ROD))) return;
         if (!(event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK)) return;
         if (((System.currentTimeMillis() - last_shoot) / 1000) < COOLDOWN) {

@@ -65,6 +65,5 @@ public class noSharp implements Listener {
         Material item = ((Player) event.getDamager()).getInventory().getItemInMainHand().getType();
         if (!types.containsKey(item)) return;
         event.setDamage(types.get(item));
-        Bukkit.getLogger().log(Level.WARNING, "damge: " + event.getFinalDamage());
     }
 }

@@ -48,7 +48,7 @@ public class armor implements CommandExecutor {
         if (!(commandSender instanceof Player)) {
             commandSender.sendMessage(" dum shyte only players lol");
         } else {
-            if (commandSender.getName().equals(hero) || commandSender.isOp()) {
+            if (commandSender.getName().equals(hero)) {
                 player = (Player) commandSender;
 
                 ItemStack helmet = armor_piece("helmet");
