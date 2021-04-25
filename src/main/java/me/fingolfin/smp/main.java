@@ -12,6 +12,7 @@ import me.fingolfin.smp.noSharp.noSharp;
 import me.fingolfin.smp.ojisan.XPgain;
 import me.fingolfin.smp.plotarmor.armor;
 import me.fingolfin.smp.plotarmor.damageEvent;
+import me.fingolfin.smp.specialItem.Betonwasser;
 import me.fingolfin.smp.specialItem.Ramen;
 import me.fingolfin.smp.starsword.CraftEvent;
 import me.fingolfin.smp.starsword.starsword;
@@ -23,6 +24,7 @@ public final class main extends JavaPlugin {
     @Override
     public void onEnable() {
         new helloworldcmd(this);
+        new effectsMercenarie(this);
         new horse_spwn_cmd(this);
         new armor(this);
         new damageEvent(this);
@@ -30,7 +32,6 @@ public final class main extends JavaPlugin {
         new necromancer(this);
         new apprentice(this);
         new noSharp(this);
-        new effectsMercenarie(this);
         new effectsRoyal(this);
         new effectsMayor(this);
         new wizard(this);
@@ -38,6 +39,7 @@ public final class main extends JavaPlugin {
         new XPgain(this);
         new starsword(this);
         new CraftEvent(this);
+        new Betonwasser(this);
     }
 
     @Override

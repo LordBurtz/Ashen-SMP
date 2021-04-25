@@ -1,5 +1,6 @@
 package me.fingolfin.smp.horse;
 
+import me.fingolfin.smp.effects.effectsMercenarie;
 import me.fingolfin.smp.main;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -11,6 +12,8 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 public class horse_spwn_cmd  implements CommandExecutor {
+
+    public static String mercenary = effectsMercenarie.mercenary;
 
     private final main plugin;
     private Player player;

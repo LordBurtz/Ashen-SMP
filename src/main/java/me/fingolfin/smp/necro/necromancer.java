@@ -22,8 +22,8 @@ import java.util.logging.Level;
 
 public class necromancer implements CommandExecutor, Listener {
     public static final int MAX_MOBS = 75;
+    public static String necromancer;
     public String file = "army.yml";
-    public String necromancer;
 
     private static final Map<EntityType, Integer> army = new HashMap<> ();
     private String target = "";
@@ -50,6 +50,7 @@ public class necromancer implements CommandExecutor, Listener {
             necromancer = data.getConfig("config.yml").getString("necro.name");
         } else {
             data.getConfig("config.yml").set("necro.name", "MINION912");
+            necromancer = "MINION912";
         }
         data.saveConfig("config.yml");
     }

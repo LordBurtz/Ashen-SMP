@@ -1,6 +1,9 @@
 package me.fingolfin.smp.plotarmor;
 
+import me.fingolfin.smp.data.data;
 import me.fingolfin.smp.main;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -11,15 +14,32 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.Collections;
+import java.util.logging.Level;
 
 public class armor implements CommandExecutor {
 
     private final main plugin;
     private Player player;
 
+    public static String hero;
+
     public armor(main plugin) {
         this.plugin = plugin;
         plugin.getCommand("plotarmor").setExecutor(this);
+        setHero();
+        Bukkit.getServer().getLogger().log(Level.INFO, String.format("[SMP] The Hero is %s", hero));
+    }
+
+    public void setHero() {
+        data data = new data(plugin, "config.yml");
+        data.saveDefaultConfig("config.yml");
+        if (data.getConfig("config.yml").contains("hero.name")) {
+            hero = data.getConfig("config.yml").getString("hero.name");
+        } else {
+            data.getConfig("config.yml").set("hero.name", "XFeam");
+            hero = "XFeam";
+        }
+        data.saveConfig("config.yml");
     }
 
     @Override
@@ -28,7 +48,7 @@ public class armor implements CommandExecutor {
         if (!(commandSender instanceof Player)) {
             commandSender.sendMessage(" dum shyte only players lol");
         } else {
-            if (commandSender.getName().equals("XFeam") || commandSender.isOp()) {
+            if (commandSender.getName().equals(hero)) {
                 player = (Player) commandSender;
 
                 ItemStack helmet = armor_piece("helmet");
@@ -40,6 +60,8 @@ public class armor implements CommandExecutor {
                 player.getInventory().setChestplate(chestplate);
                 player.getInventory().setLeggings(leggins);
                 player.getInventory().setBoots(boots);
+            } else {
+                commandSender.sendMessage(ChatColor.GRAY + "" + ChatColor.ITALIC + "you are not le hero :sad:");
             }
         }
         return true;

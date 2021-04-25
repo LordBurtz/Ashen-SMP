@@ -22,8 +22,8 @@ import java.util.logging.Level;
 
 public class apprentice implements Listener, CommandExecutor {
     public static final int MAX_MOBS = 75;
+    public static String apprentice;
     public String file = "apprentice.yml";
-    public String apprentice;
 
     private static final Map<EntityType, Integer> army = new HashMap<>();
     private String target = "";

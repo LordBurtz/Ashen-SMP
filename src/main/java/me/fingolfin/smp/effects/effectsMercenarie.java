@@ -14,7 +14,7 @@ import org.bukkit.potion.PotionEffectType;
 import java.util.logging.Level;
 
 public class effectsMercenarie implements Listener {
-    public String mercenary;
+    public static String mercenary;
 
     private final main plugin;
 
@@ -42,7 +42,7 @@ public class effectsMercenarie implements Listener {
         Player player = event.getPlayer();
         if (!(player.getName().equals(mercenary))) return;
         Bukkit.getScheduler().runTaskLater(plugin, () -> {
-            player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, Integer.MAX_VALUE, 0, false, false, false));
+            player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, Integer.MAX_VALUE, 0));
         }, 20);
     }
 
