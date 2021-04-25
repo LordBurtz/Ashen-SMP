@@ -13,8 +13,9 @@ import java.util.List;
 
 public class damageEvent implements Listener {
 
-    private final main plugin;
+    public String hero = armor.hero;
 
+    private final main plugin;
     private static final List<EntityDamageEvent.DamageCause> damage_types = new ArrayList<>();
 
     public damageEvent(main plugin) {
@@ -25,7 +26,7 @@ public class damageEvent implements Listener {
 
     @EventHandler
     public void onDamage(EntityDamageEvent event) {
-        if (!(event.getEntity().getName().equals("XFeam") || event.getEntity().getName().equals("Fingolf1n"))) return;
+        if (!(event.getEntity().getName().equals(hero))) return;
         Player player = (Player) event.getEntity();
         EntityEquipment inv = player.getEquipment();
         try {

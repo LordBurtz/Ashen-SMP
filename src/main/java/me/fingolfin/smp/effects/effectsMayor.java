@@ -18,7 +18,7 @@ import org.bukkit.potion.PotionType;
 import java.util.logging.Level;
 
 public class effectsMayor implements Listener {
-    public String mayor;
+    public static String mayor;
     
     private final main plugin;
 

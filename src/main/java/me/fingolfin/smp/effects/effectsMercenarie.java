@@ -14,7 +14,7 @@ import org.bukkit.potion.PotionEffectType;
 import java.util.logging.Level;
 
 public class effectsMercenarie implements Listener {
-    public String mercenary;
+    public static String mercenary;
 
     private final main plugin;
 

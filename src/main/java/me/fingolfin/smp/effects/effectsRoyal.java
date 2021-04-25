@@ -14,7 +14,7 @@ import org.bukkit.potion.PotionEffectType;
 import java.util.logging.Level;
 
 public class effectsRoyal implements Listener {
-    public String Royal;
+    public static String Royal;
     
     private final main plugin;
 

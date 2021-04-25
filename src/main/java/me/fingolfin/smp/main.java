@@ -24,6 +24,7 @@ public final class main extends JavaPlugin {
     @Override
     public void onEnable() {
         new helloworldcmd(this);
+        new effectsMercenarie(this);
         new horse_spwn_cmd(this);
         new armor(this);
         new damageEvent(this);
@@ -31,7 +32,6 @@ public final class main extends JavaPlugin {
         new necromancer(this);
         new apprentice(this);
         new noSharp(this);
-        new effectsMercenarie(this);
         new effectsRoyal(this);
         new effectsMayor(this);
         new wizard(this);
