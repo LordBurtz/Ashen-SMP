@@ -10,14 +10,21 @@ import com.comphenix.protocol.events.PacketEvent;
 import me.fingolfin.smp.main;
 import org.bukkit.*;
 import org.bukkit.block.BlockFace;
+import org.bukkit.boss.BarColor;
+import org.bukkit.boss.BarStyle;
+import org.bukkit.boss.BossBar;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerToggleFlightEvent;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.CompassMeta;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
@@ -98,6 +105,7 @@ public class Testing implements Listener, CommandExecutor {
                 Vector vector = player.getLocation().getDirection();
                 player.setVelocity(vector.setY(1.1D));
                 player.playEffect(player.getLocation(), Effect.BLAZE_SHOOT, 15);
+                bossBar(player);
                 jumpers.put(player, System.currentTimeMillis());
             }
         } else {
@@ -108,6 +116,7 @@ public class Testing implements Listener, CommandExecutor {
                 Vector vector = player.getLocation().getDirection();
                 player.setVelocity(vector.setY(1.1D));
                 player.playEffect(player.getLocation(), Effect.BLAZE_SHOOT, 15);
+                bossBar(player);
                 jumpers.put(player, System.currentTimeMillis());
             }
         }
@@ -120,5 +129,47 @@ public class Testing implements Listener, CommandExecutor {
         if (!(event.getPlayer().getGameMode().equals(GameMode.CREATIVE)) && !(player.getLocation().getBlock().getRelative(BlockFace.DOWN).getType().equals(Material.AIR))) {
                 player.setAllowFlight(true);
             }
+    }
+
+    public void bossBar(Player player, boolean bool) {
+        BossBar bar = Bukkit.createBossBar(ChatColor.GOLD + "Cooldown Double Jump", BarColor.YELLOW, BarStyle.SEGMENTED_10);
+        bar.addPlayer(player);
+        bar.setProgress(1D);
+        Bukkit.getServer().getScheduler().runTaskLater(plugin,() -> {
+            bar.setProgress(0.8D);
+        } ,20);
+        Bukkit.getServer().getScheduler().runTaskLater(plugin,() -> {
+            bar.setProgress(0.6D);
+        } ,40);
+        Bukkit.getServer().getScheduler().runTaskLater(plugin,() -> {
+            bar.setProgress(0.4D);
+        } ,60);
+        Bukkit.getServer().getScheduler().runTaskLater(plugin,() -> {
+            bar.setProgress(0.2D);
+        } ,80);
+        Bukkit.getServer().getScheduler().runTaskLater(plugin,() -> {
+            bar.setProgress(0.1D);
+        } ,90);
+        Bukkit.getServer().getScheduler().runTaskLater(plugin,() -> {
+            bar.setProgress(0.0D);
+            bar.removeAll();
+        } ,100);
+        return;
+    }
+
+    public void bossBar(Player player) {
+        BossBar bar = Bukkit.createBossBar(ChatColor.DARK_PURPLE + "Cooldown Double Jump", BarColor.PURPLE, BarStyle.SEGMENTED_20);
+        bar.addPlayer(player);
+        bar.setProgress(1D);
+        for (double i = 0; i <= 1; i = i + 0.05) {
+            double finalI = i;
+            Bukkit.getServer().getScheduler().runTaskLater(plugin,() -> {
+                bar.setProgress(1.0D - finalI);
+            } , (long) (finalI*100));
+        }
+        Bukkit.getServer().getScheduler().runTaskLater(plugin,() -> {
+            bar.setProgress(0.0D);
+            bar.removeAll();
+        } ,100);
     }
 }
