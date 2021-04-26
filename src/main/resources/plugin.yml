@@ -6,6 +6,7 @@ authors: [ Fingolfin ]
 description: plugins for le smp
 website:  https://discord.gg/QZeNhWq6hv
 prefix: "[SMP]"
+depend: [ProtocolLib]
 
 commands:
   hello:
@@ -20,3 +21,6 @@ commands:
     aliases: ["army"]
   apprentice:
     aliases: ["app"]
+  7ac:
+    aliases:
+      - "mute"

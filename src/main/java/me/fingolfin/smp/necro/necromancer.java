@@ -156,8 +156,9 @@ public class necromancer implements CommandExecutor, Listener {
             return true;
         }
 
-        if (!(commandSender.getName().equals("necromancer"))) {
+        if (!(commandSender.getName().equals(necromancer))) {
             commandSender.sendMessage(ChatColor.ITALIC  + "" + ChatColor.GRAY + "you are not le necromancer");
+            Bukkit.getLogger().log(Level.INFO, commandSender.getName() + " tried to execute necromancers commands");
             return true;
         }
 
@@ -200,7 +201,7 @@ public class necromancer implements CommandExecutor, Listener {
     public void onMobKill(EntityDeathEvent event) {
         if (!toggled) return;
         if (event.getEntity().getKiller() == null) return;
-        if (!(event.getEntity().getKiller().getName().equals("necromancer"))) return;
+        if (!(event.getEntity().getKiller().getName().equals(necromancer))) return;
         EntityType type = event.getEntityType();
         if (mobs_atm > MAX_MOBS) {
             event.getEntity().getKiller().sendMessage(
