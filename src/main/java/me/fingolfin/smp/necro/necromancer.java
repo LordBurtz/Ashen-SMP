@@ -158,6 +158,7 @@ public class necromancer implements CommandExecutor, Listener {
 
         if (!(commandSender.getName().equals(necromancer))) {
             commandSender.sendMessage(ChatColor.ITALIC  + "" + ChatColor.GRAY + "you are not le necromancer");
+            Bukkit.getLogger().log(Level.INFO, commandSender.getName() + " tried to execute necromancers commands");
             return true;
         }
 
