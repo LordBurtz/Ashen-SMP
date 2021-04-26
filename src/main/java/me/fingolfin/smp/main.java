@@ -43,7 +43,7 @@ public final class main extends JavaPlugin {
         new Betonwasser(this);
 
         //Testing Area
-        //new Testing(this);
+        new Testing(this);
     }
 
     @Override

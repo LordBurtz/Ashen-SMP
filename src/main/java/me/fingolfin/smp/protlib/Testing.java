@@ -14,12 +14,16 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 
-import java.sql.Wrapper;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class Testing implements Listener, CommandExecutor {
     private main plugin;
     private ProtocolManager pmng;
-    private boolean mute;
+
+    public List<String> muted = new ArrayList<>();
 
     public Testing(main plugin) {
         this.plugin = plugin;
@@ -28,7 +32,7 @@ public class Testing implements Listener, CommandExecutor {
         pmng.addPacketListener(new PacketAdapter(plugin, ListenerPriority.NORMAL, PacketType.Play.Client.CHAT) {
             @Override
             public void onPacketReceiving(PacketEvent event) {
-                if (!mute) return;
+                if (!(muted.contains(event.getPlayer().getName()))) return;
                 Player player = event.getPlayer();
                 PacketContainer packet = event.getPacket();
                 if (packet.getStrings().read(0).equals("/7ac") || packet.getStrings().read(0).equals("/mute")) return;
@@ -40,8 +44,15 @@ public class Testing implements Listener, CommandExecutor {
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
         if (!(commandSender instanceof Player)) return true;
-        mute = !mute;
-        commandSender.sendMessage(String.format("toggled to %b", mute));
+        String name = commandSender.getName();
+        if (muted.contains(name)) {
+            muted.remove(name);
+            commandSender.sendMessage(String.format("toggled to %b", false));
+        } else {
+            muted.add(name);
+            commandSender.sendMessage(String.format("toggled to %b", true));
+        }
+        System.out.println(muted);
         PacketContainer fakeExplosion = pmng.createPacket(PacketType.Play.Server.EXPLOSION);
         Player player = (Player) commandSender;
         fakeExplosion.getDoubles().
@@ -53,7 +64,7 @@ public class Testing implements Listener, CommandExecutor {
             pmng.sendServerPacket(player, fakeExplosion);
         } catch (Exception e) {
             throw new RuntimeException(
-                    "cannot send stuff lol", c
+                    "cannot send stuff lol", e
             );
         }
         return true;
