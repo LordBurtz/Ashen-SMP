@@ -31,7 +31,7 @@ public class XPgain {
         if (data.getConfig("config.yml").contains("Old_Man.name")) {
             oldman = data.getConfig("config.yml").getString("Old_Man.name");
         } else {
-            data.getConfig("config.yml").set("mayor.name", "Fingolf1n");
+            data.getConfig("config.yml").set("Old_man.name", "Fingolf1n");
             oldman = "Fingolf1n";
         }
         data.saveConfig("config.yml");

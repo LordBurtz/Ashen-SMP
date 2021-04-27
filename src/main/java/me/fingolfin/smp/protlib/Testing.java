@@ -16,15 +16,13 @@ import org.bukkit.boss.BossBar;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerToggleFlightEvent;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.CompassMeta;
-import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.event.server.ServerListPingEvent;
 import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
@@ -86,7 +84,7 @@ public class Testing implements Listener, CommandExecutor {
         return true;
     }
 
-    @EventHandler
+    @EventHandler (priority = EventPriority.HIGHEST)
     public void onPlayerFly(PlayerToggleFlightEvent event) {
         Player player = event.getPlayer();
         if (jumpers.containsKey(player)) {
@@ -171,5 +169,11 @@ public class Testing implements Listener, CommandExecutor {
             bar.setProgress(0.0D);
             bar.removeAll();
         } ,100);
+    }
+
+    @EventHandler
+    public void onPing(ServerListPingEvent event) {
+        event.setMaxPlayers(-1);
+        event.setMotd("giey");
     }
 }
