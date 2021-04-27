@@ -71,13 +71,16 @@ public class DaBaby implements Listener, CommandExecutor {
         return true;
     }
 
-    @EventHandler(priority = EventPriority.LOWEST)
+    @EventHandler
     public void onPigLeave (EntityDismountEvent event) {
+        if (!(event.getEntity() instanceof Player)) return;
+        if (!event.getEntity().getName().equals(daBaby)) return;
+        if (!event.getDismounted().getCustomName().equals("a convertable")) return;
         event.getDismounted().setSilent(true);
         ((Player) event.getEntity()).setInvisible(false);
         event.getDismounted().setFallDistance(100);
         for (Player online : Bukkit.getOnlinePlayers()) {
-            if (online.getName().equals("Fingolf1n")) {
+            if (online.getName().equals(XPgain.oldman)) {
                 continue;
             }
             online.showPlayer(plugin, (Player) event.getEntity());
