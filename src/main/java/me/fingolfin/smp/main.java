@@ -1,6 +1,7 @@
 package me.fingolfin.smp;
 
 import me.fingolfin.smp.apprentice.apprentice;
+import me.fingolfin.smp.convertable.DaBaby;
 import me.fingolfin.smp.effects.effectsMayor;
 import me.fingolfin.smp.effects.effectsMercenarie;
 import me.fingolfin.smp.effects.effectsRoyal;
@@ -44,6 +45,7 @@ public final class main extends JavaPlugin {
 
         //Testing Area
         new Testing(this);
+        new DaBaby(this);
     }
 
     @Override

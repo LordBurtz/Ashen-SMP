@@ -24,3 +24,5 @@ commands:
   7ac:
     aliases:
       - "mute"
+  convertable:
+    aliases: []
