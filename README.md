@@ -1,20 +1,23 @@
-# tmp [![NPM version](https://badge.fury.io/js/tmp.svg)](https://npmjs.org/package/tmp) [![Build Status](https://travis-ci.org/LordBurtz/tmp.svg?branch=master)](https://travis-ci.org/LordBurtz/tmp)
+# Ashen-SMP plugin
 
-> This is a plugin to be used in the Ashen-SMP project\
+> This is a plugin to be used in the Ashen-SMP project
+> its quite a large plugin that depends on [ProtocolLib](https://github.com/dmulloy2/ProtocolLib/)[](url)
 
 ## Installation
 
-```sh
-$ npm install --save tmp
+```
+grab the latest release in releases and download ProtocolLib
+put them in the plugins folder in your server directory
+restart your server and enjoy
 ```
 
 ## Usage
 
-```js
-var tmp = require('tmp');
-tmp();
+```
+take a look in the wiki or ask me
+(will add this later)
 ```
 
 ## License
 
-MIT © [Github: LordBurtz / Discord: Fingolfin#5731](me.fingolfin.smp)
+GPLv3 © [Github: LordBurtz / Discord: Fingolfin#5731](discord.gg/QZeNhWq6hv)
