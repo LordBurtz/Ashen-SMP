@@ -7,6 +7,7 @@ import com.comphenix.protocol.events.ListenerPriority;
 import com.comphenix.protocol.events.PacketAdapter;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.events.PacketEvent;
+import me.fingolfin.smp.data.data;
 import me.fingolfin.smp.main;
 import org.bukkit.*;
 import org.bukkit.block.BlockFace;
@@ -34,6 +35,7 @@ public class Testing implements Listener, CommandExecutor {
     private main plugin;
     private ProtocolManager pmng;
 
+    public static String MOTD;
     public final int COOLDOWN = 5;
     public HashMap<Player, Long> jumpers = new HashMap<>();
     public List<String> muted = new ArrayList<>();
@@ -41,6 +43,7 @@ public class Testing implements Listener, CommandExecutor {
     public Testing(main plugin) {
         this.plugin = plugin;
         plugin.getCommand("7ac").setExecutor(this);
+        setMOTD();
         pmng = ProtocolLibrary.getProtocolManager();
         Bukkit.getPluginManager().registerEvents(this, plugin);
         pmng.addPacketListener(new PacketAdapter(plugin, ListenerPriority.NORMAL, PacketType.Play.Client.CHAT) {
@@ -171,9 +174,21 @@ public class Testing implements Listener, CommandExecutor {
         } ,100);
     }
 
+    public void setMOTD() {
+        data data = new data(plugin, "config.yml");
+        data.saveDefaultConfig("config.yml");
+        if (data.getConfig("config.yml").contains("MOTD")) {
+            MOTD = data.getConfig("config.yml").getString("MOTD");
+        } else {
+            data.getConfig("config.yml").set("MOTD", "THIS IS A TEST SERVER");
+            MOTD = "THIS IS A TEST SERVER";
+        }
+        data.saveConfig("config.yml");
+    }
+
     @EventHandler
     public void onPing(ServerListPingEvent event) {
         event.setMaxPlayers(-1);
-        event.setMotd("giey");
+        event.setMotd(ChatColor.RED + "" + ChatColor.BOLD + MOTD);
     }
 }
