@@ -5,6 +5,7 @@ import me.fingolfin.smp.main;
 import me.fingolfin.smp.ojisan.XPgain;
 import net.bytebuddy.build.Plugin;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -16,6 +17,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.vehicle.VehicleDestroyEvent;
+import org.bukkit.event.vehicle.VehicleExitEvent;
+import org.bukkit.event.vehicle.VehicleUpdateEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -25,8 +30,10 @@ import java.util.logging.Level;
 
 public class DaBaby implements Listener, CommandExecutor {
     public static String daBaby;
+    public static final int COOLDOWN = 30;
 
     private main plugin;
+    private long last_shoot;
 
     public DaBaby(main plugin) {
         this.plugin = plugin;
@@ -55,6 +62,15 @@ public class DaBaby implements Listener, CommandExecutor {
             commandSender.sendMessage("noo you are not dababy");
             return true;
         }
+
+        if (((System.currentTimeMillis() - last_shoot) / 1000) < COOLDOWN) {
+            commandSender.sendMessage(ChatColor.GOLD +
+                    String.format("You have to wait %.1f secs to use that again",
+                            ((float) COOLDOWN -( (float) (System.currentTimeMillis() - last_shoot)) /1000)));
+            return true;
+        }
+        last_shoot = System.currentTimeMillis();
+
         Player player = (((Player) commandSender).getPlayer());
         player.getInventory().addItem(new ItemStack(Material.CARROT_ON_A_STICK));
         Entity pig = player.getWorld().spawnEntity(player.getLocation(), EntityType.PIG);
@@ -72,19 +88,51 @@ public class DaBaby implements Listener, CommandExecutor {
     }
 
     @EventHandler
-    public void onPigLeave (EntityDismountEvent event) {
-        if (!(event.getEntity() instanceof Player)) return;
-        if (!event.getEntity().getName().equals(daBaby)) return;
-        if (!event.getDismounted().getCustomName().equals("a convertable")) return;
-        event.getDismounted().setSilent(true);
-        ((Player) event.getEntity()).setInvisible(false);
-        event.getDismounted().setFallDistance(100);
+    public  void onPigLeave (VehicleExitEvent event) {
+        if (!(event.getExited() instanceof  Player)) return;
+        if (!(event.getVehicle().getCustomName().equals("a convertable"))) return;
+        if (!(event.getExited().getName().equals(daBaby))) return;
+        if (!(event.getVehicle().getType().equals(EntityType.PIG))) return;
+        event.getVehicle().setSilent(true);
+        ((Player) event.getExited()).setInvisible(false);
+        event.getVehicle().remove();
         for (Player online : Bukkit.getOnlinePlayers()) {
             if (online.getName().equals(XPgain.oldman)) {
                 continue;
             }
-            online.showPlayer(plugin, (Player) event.getEntity());
+            online.showPlayer(plugin, (Player) event.getExited());
         }
-        ((Player) event.getEntity()).getInventory().remove(Material.CARROT_ON_A_STICK);
+        ((Player) event.getExited()).getInventory().remove(Material.CARROT_ON_A_STICK);
+    }
+
+    @EventHandler
+    public void onRejoin(PlayerJoinEvent event) {
+        if (!(event.getPlayer().getName().equals(daBaby))) return;
+        for (Player online : Bukkit.getOnlinePlayers()) {
+            if (online.getName().equals(XPgain.oldman)) {
+                continue;
+            }
+            online.showPlayer(plugin, event.getPlayer());
+        }
+        if (event.getPlayer().isInvisible()) event.getPlayer().setInvisible(false);
+    }
+
+    @EventHandler
+    public  void onPigDie (VehicleDestroyEvent event) {
+        if ((event.getVehicle().getPassengers().isEmpty())) return;
+        if (!(event.getVehicle().getPassengers().get(0) instanceof  Player)) return;
+        if (!(event.getVehicle().getCustomName().equals("a convertable"))) return;
+        if (!(event.getVehicle().getPassengers().get(0).getName().equals(daBaby))) return;
+        if (!(event.getVehicle().getType().equals(EntityType.PIG))) return;
+        event.getVehicle().setSilent(true);
+        ((Player) event.getVehicle().getPassengers().get(0)).setInvisible(false);
+        event.getVehicle().remove();
+        for (Player online : Bukkit.getOnlinePlayers()) {
+            if (online.getName().equals(XPgain.oldman)) {
+                continue;
+            }
+            online.showPlayer(plugin, (Player) event.getVehicle().getPassengers().get(0));
+        }
+        ((Player) event.getVehicle().getPassengers().get(0)).getInventory().remove(Material.CARROT_ON_A_STICK);
     }
 }
