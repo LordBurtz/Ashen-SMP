@@ -30,6 +30,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
 
 public class Testing implements Listener, CommandExecutor {
     private main plugin;
@@ -56,6 +57,7 @@ public class Testing implements Listener, CommandExecutor {
                 event.setCancelled(true);
             }
         });
+        Bukkit.getLogger().log(Level.INFO, String.format("[SMP] The MOTD is %s", MOTD));
     }
 
     @Override
@@ -184,11 +186,12 @@ public class Testing implements Listener, CommandExecutor {
             MOTD = "THIS IS A TEST SERVER";
         }
         data.saveConfig("config.yml");
+        MOTD = ChatColor.RED + "" + ChatColor.BOLD + MOTD;
     }
 
     @EventHandler
     public void onPing(ServerListPingEvent event) {
         event.setMaxPlayers(-1);
-        event.setMotd(ChatColor.RED + "" + ChatColor.BOLD + MOTD);
+        event.setMotd(MOTD);
     }
 }
