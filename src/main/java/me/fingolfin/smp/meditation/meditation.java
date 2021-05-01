@@ -13,6 +13,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerLevelChangeEvent;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -136,5 +137,12 @@ public class meditation implements CommandExecutor, Listener {
             data.saveConfig(config_file);
             meditators.remove(player.getName());
         } else return;
+    }
+
+    @EventHandler
+    public void onLevelUp(PlayerLevelChangeEvent event) {
+        if (event.getNewLevel() == 40) {
+            event.getPlayer().sendMessage(ChatColor.GOLD + "" + ChatColor.ITALIC + "you are now wise enough to meditate");
+        }
     }
 }

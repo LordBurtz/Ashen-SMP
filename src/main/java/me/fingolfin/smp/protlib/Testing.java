@@ -135,7 +135,7 @@ public class Testing implements Listener, CommandExecutor {
     }
 
     public void bossBar(Player player, boolean bool) {
-        BossBar bar = Bukkit.createBossBar(ChatColor.GOLD + "Cooldown Double Jump", BarColor.YELLOW, BarStyle.SEGMENTED_10);
+        BossBar bar = Bukkit.createBossBar(ChatColor.GOLD + "Cooldown Double Jump", BarColor.YELLOW, BarStyle.SOLID);
         bar.addPlayer(player);
         bar.setProgress(1D);
         Bukkit.getServer().getScheduler().runTaskLater(plugin,() -> {
