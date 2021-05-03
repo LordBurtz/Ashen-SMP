@@ -11,6 +11,7 @@ import me.fingolfin.smp.data.data;
 import me.fingolfin.smp.main;
 import org.bukkit.*;
 import org.bukkit.block.BlockFace;
+import org.bukkit.block.TileState;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
 import org.bukkit.boss.BossBar;
@@ -21,13 +22,18 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerToggleFlightEvent;
 import org.bukkit.event.server.ServerListPingEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataContainer;
+import org.bukkit.persistence.PersistentDataType;
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
@@ -51,7 +57,8 @@ public class Testing implements Listener, CommandExecutor {
         plugin.getCommand("7ac").setExecutor(this);
         setMOTD();
         pmng = ProtocolLibrary.getProtocolManager();
-        Bukkit.getPluginManager().registerEvents(this, plugin);
+        PluginManager pm = Bukkit.getPluginManager();
+        pm.registerEvents(this, plugin);
         pmng.addPacketListener(new PacketAdapter(plugin, ListenerPriority.NORMAL, PacketType.Play.Client.CHAT) {
             @Override
             public void onPacketReceiving(PacketEvent event) {
@@ -247,6 +254,39 @@ public class Testing implements Listener, CommandExecutor {
             player.closeInventory();
         }
         return;
+    }
 
+    @EventHandler
+    public void onPlace (BlockPlaceEvent event) {
+        if (!event.getBlock().getType().equals(Material.CHEST)) return;
+        if (!(event.getBlock().getState() instanceof TileState)) return;
+
+        TileState state = (TileState) event.getBlock().getState();
+        PersistentDataContainer container = state.getPersistentDataContainer();
+        NamespacedKey key = new NamespacedKey(plugin, "private-chest");
+
+        container.set(key, PersistentDataType.STRING, event.getPlayer().getUniqueId().toString());
+        state.update();
+
+        event.getPlayer().sendMessage("chest locked");
+    }
+
+    @EventHandler
+    public void onChestOpen(PlayerInteractEvent event) {
+        if (!event.hasBlock()) return;
+        if (!event.getClickedBlock().getType().equals(Material.CHEST)) return;
+        if (!(event.getClickedBlock().getState() instanceof TileState)) return;
+
+        TileState state = (TileState) event.getClickedBlock().getState();
+        PersistentDataContainer container = state.getPersistentDataContainer();
+        NamespacedKey key = new NamespacedKey(plugin, "private-chest");
+
+        if (!container.has(key, PersistentDataType.STRING)) return;
+        if (event.getPlayer().getUniqueId().toString().equalsIgnoreCase(
+                container.get(key, PersistentDataType.STRING)
+        )) return; else {
+            event.getPlayer().sendMessage(ChatColor.GRAY + "this chest is locked!");
+            event.setCancelled(true);
+        }
     }
 }
