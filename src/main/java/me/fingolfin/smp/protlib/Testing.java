@@ -21,9 +21,13 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerToggleFlightEvent;
 import org.bukkit.event.server.ServerListPingEvent;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
@@ -36,6 +40,7 @@ public class Testing implements Listener, CommandExecutor {
     private main plugin;
     private ProtocolManager pmng;
 
+    public Inventory inventory;
     public static String MOTD;
     public final int COOLDOWN = 5;
     public HashMap<Player, Long> jumpers = new HashMap<>();
@@ -57,6 +62,7 @@ public class Testing implements Listener, CommandExecutor {
                 event.setCancelled(true);
             }
         });
+        createInv();
         Bukkit.getLogger().log(Level.INFO, String.format("[SMP] The MOTD is %s", MOTD));
     }
 
@@ -64,6 +70,12 @@ public class Testing implements Listener, CommandExecutor {
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
         if (!(commandSender instanceof Player)) return true;
         String name = commandSender.getName();
+
+        if (strings[0].equals("gui")) {
+            ((Player) commandSender).openInventory(inventory);
+            return true;
+        }
+
         if (muted.contains(name)) {
             muted.remove(name);
             commandSender.sendMessage(String.format("toggled to %b", false));
@@ -193,5 +205,48 @@ public class Testing implements Listener, CommandExecutor {
     public void onPing(ServerListPingEvent event) {
         event.setMaxPlayers(-1);
         event.setMotd(MOTD);
+    }
+
+    public void createInv() {
+        inventory = Bukkit.createInventory(null, 9, ChatColor.GOLD + "do the testing");
+        ItemStack item = new ItemStack(Material.BLUE_WOOL);
+        ItemMeta meta = item.getItemMeta();
+
+        meta.setDisplayName(ChatColor.DARK_BLUE + "blue");
+        List<String> lore = new ArrayList<>();
+        lore.add(ChatColor.GRAY + "Click to join a team");
+        meta.setLore(lore);
+        item.setItemMeta(meta);
+        inventory.setItem(0, item);
+
+        item.setType(Material.BARRIER);
+        meta = item.getItemMeta();
+
+        meta.setDisplayName(ChatColor.WHITE + "close");
+        lore = new ArrayList<>();
+        lore.add(ChatColor.GRAY + "Close le GUI");
+        meta.setLore(lore);
+        item.setItemMeta(meta);
+        inventory.setItem(8, item);
+    }
+
+    @EventHandler
+    public void onInventoryClick(InventoryClickEvent event) {
+        if (!event.getInventory().equals(inventory)) return;
+        if (event.getCurrentItem() == null) return;
+        if (event.getCurrentItem().getItemMeta() == null) return;
+        if (event.getCurrentItem().getItemMeta().getLore() == null) return;
+
+        event.setCancelled(true);
+        Player player = (Player) event.getWhoClicked();
+
+        if (event.getSlot() == 0) {
+            player.getInventory().addItem( new ItemStack(Material.ACACIA_BOAT));
+        }
+        if (event.getSlot() == 8) {
+            player.closeInventory();
+        }
+        return;
+
     }
 }
