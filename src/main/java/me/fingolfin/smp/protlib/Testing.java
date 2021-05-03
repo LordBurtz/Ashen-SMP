@@ -42,6 +42,7 @@ public class Testing implements Listener, CommandExecutor {
     public List<String> muted = new ArrayList<>();
 
     //testing the push
+    //pong
 
     public Testing(main plugin) {
         this.plugin = plugin;
