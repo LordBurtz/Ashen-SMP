@@ -3,7 +3,6 @@ package me.fingolfin.smp.convertable;
 import me.fingolfin.smp.data.data;
 import me.fingolfin.smp.main;
 import me.fingolfin.smp.ojisan.XPgain;
-import net.bytebuddy.build.Plugin;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -15,23 +14,25 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Pig;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.vehicle.VehicleDestroyEvent;
 import org.bukkit.event.vehicle.VehicleExitEvent;
-import org.bukkit.event.vehicle.VehicleUpdateEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-import org.spigotmc.event.entity.EntityDismountEvent;
+import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitTask;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 
 public class DaBaby implements Listener, CommandExecutor {
     public static String daBaby;
     public static final int COOLDOWN = 30;
 
+    private List<Entity>  dababies = new ArrayList<>();
     private main plugin;
     private long last_shoot;
 
@@ -53,6 +54,14 @@ public class DaBaby implements Listener, CommandExecutor {
             daBaby = "Dajo_Di_Majo";
         }
         data.saveConfig("config.yml");
+
+        BukkitTask killDababies = new BukkitRunnable() {
+            @Override
+            public void run() {
+                destroyDaBabys();
+            }
+        }.runTaskTimer(plugin, 20L, 1200L);
+        Bukkit.getServer().getLogger().log(Level.INFO, "killing all the unmounted dababies");
     }
 
     @Override
@@ -75,6 +84,7 @@ public class DaBaby implements Listener, CommandExecutor {
         player.getInventory().addItem(new ItemStack(Material.CARROT_ON_A_STICK));
         Entity pig = player.getWorld().spawnEntity(player.getLocation(), EntityType.PIG);
         pig.setPassenger(player);
+        dababies.add(pig);
         pig.setCustomName("a convertable");
         for (Player online : Bukkit.getOnlinePlayers()) {
             if (online.getName().equals(XPgain.oldman)) {
@@ -90,6 +100,7 @@ public class DaBaby implements Listener, CommandExecutor {
     @EventHandler
     public  void onPigLeave (VehicleExitEvent event) {
         if (!(event.getExited() instanceof  Player)) return;
+        if ((event.getVehicle().getCustomName().isEmpty())) return;
         if (!(event.getVehicle().getCustomName().equals("a convertable"))) return;
         if (!(event.getExited().getName().equals(daBaby))) return;
         if (!(event.getVehicle().getType().equals(EntityType.PIG))) return;
@@ -103,6 +114,15 @@ public class DaBaby implements Listener, CommandExecutor {
             online.showPlayer(plugin, (Player) event.getExited());
         }
         ((Player) event.getExited()).getInventory().remove(Material.CARROT_ON_A_STICK);
+    }
+
+    public void destroyDaBabys() {
+        if (dababies.isEmpty()) return; //is this necessary to not throw a null exception?
+        for (Entity entity : dababies)  {
+            if (entity.getPassengers().isEmpty()) {
+                entity.remove();
+            }
+        }
     }
 
     @EventHandler
