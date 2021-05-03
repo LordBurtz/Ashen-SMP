@@ -41,6 +41,8 @@ public class Testing implements Listener, CommandExecutor {
     public HashMap<Player, Long> jumpers = new HashMap<>();
     public List<String> muted = new ArrayList<>();
 
+    //testing the push
+
     public Testing(main plugin) {
         this.plugin = plugin;
         plugin.getCommand("7ac").setExecutor(this);
