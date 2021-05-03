@@ -36,10 +36,7 @@ import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.util.Vector;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.logging.Level;
 
 public class Testing implements Listener, CommandExecutor {
@@ -80,6 +77,24 @@ public class Testing implements Listener, CommandExecutor {
 
         if (strings[0].equals("gui")) {
             ((Player) commandSender).openInventory(inventory);
+            return true;
+        }
+
+        if (strings[0].equals("backpack")) {
+            Player player = (((Player) commandSender).getPlayer());
+            ItemStack item = new ItemStack(Material.CHEST);
+            ItemMeta meta = item.getItemMeta();
+
+            PersistentDataContainer container = meta.getPersistentDataContainer();
+
+            return true;
+        }
+
+        if (strings[0].equals("pass")) {
+            Player player = (Player) commandSender;
+            Information info = new Information((player.getPlayer()));
+            info.setIssuedDate(new Date());
+            player.getInventory().addItem(getID(info));
             return true;
         }
 
@@ -288,5 +303,19 @@ public class Testing implements Listener, CommandExecutor {
             event.getPlayer().sendMessage(ChatColor.GRAY + "this chest is locked!");
             event.setCancelled(true);
         }
+    }
+
+    public ItemStack getID(Information information) {
+        ItemStack id = new ItemStack(Material.PAPER);
+        ItemMeta meta = id.getItemMeta();
+
+        meta.setDisplayName(ChatColor.DARK_GRAY + information.getName() + "'s ID");
+
+        NamespacedKey key = new NamespacedKey(plugin, "license");
+
+        meta.getPersistentDataContainer().set(key, new InformationDataType(), information);
+
+        id.setItemMeta(meta);
+        return id;
     }
 }
