@@ -23,6 +23,7 @@ public class DeathChest implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onDeath(PlayerDeathEvent event) {
+        event.getDrops().clear();
         Inventory inv = event.getEntity().getInventory();
         Location loc = event.getEntity().getLocation();
         Block block = loc.getBlock();
@@ -31,14 +32,23 @@ public class DeathChest implements Listener {
         Inventory chestinv = chest.getInventory();
         int y = 1;
         for (ItemStack item : inv) {
+            if (y<27) {
             if (item == null) {
                 continue;
             } else {
                 chestinv.setItem(y, item);
                 y++;
+            }} else {
+                event.getEntity().getWorld().dropItem(loc, item);
             }
         }
+
+        event.getEntity().sendMessage(String.format("your deathchest is at %d %d %d", loc.getBlockX(), loc.getBlockY(), loc.getBlockZ()));
+
         event.getEntity().getInventory().clear();
         event.getDrops().clear();
+        Bukkit.getServer().getScheduler().runTaskLater(plugin, () -> {
+            chestinv.clear();
+        }, 8400L);
     }
 }

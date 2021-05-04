@@ -2,6 +2,7 @@ package me.fingolfin.smp.protlib;
 
 import me.fingolfin.smp.data.data;
 import me.fingolfin.smp.main;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -14,6 +15,7 @@ public class motd implements Listener {
 
     public motd(main plugin) {
         this.plugin = plugin;
+        Bukkit.getPluginManager().registerEvents(this, plugin);
         setMOTD();
     }
 
