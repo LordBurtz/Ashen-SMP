@@ -13,7 +13,10 @@ import me.fingolfin.smp.noSharp.noSharp;
 import me.fingolfin.smp.ojisan.XPgain;
 import me.fingolfin.smp.plotarmor.armor;
 import me.fingolfin.smp.plotarmor.damageEvent;
+import me.fingolfin.smp.protlib.DeathChest;
+import me.fingolfin.smp.protlib.DoubleJump;
 import me.fingolfin.smp.protlib.Testing;
+import me.fingolfin.smp.protlib.motd;
 import me.fingolfin.smp.specialItem.Betonwasser;
 import me.fingolfin.smp.specialItem.Ramen;
 import me.fingolfin.smp.starsword.CraftEvent;
@@ -42,10 +45,13 @@ public final class main extends JavaPlugin {
         new starsword(this);
         new CraftEvent(this);
         new Betonwasser(this);
+        new DaBaby(this);
+        new DoubleJump(this);
+        new motd(this);
+        new DeathChest(this);
 
         //Testing Area
-        new Testing(this);
-        new DaBaby(this);
+        //new Testing(this);
     }
 
     @Override
