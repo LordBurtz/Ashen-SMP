@@ -292,7 +292,14 @@ public class Testing implements Listener, CommandExecutor {
         if (!player.getInventory().getItemInMainHand().getType().equals(Material.PAPER)) return;
         ItemStack item = player.getInventory().getItemInMainHand();
         if (!item.hasItemMeta()) return;
-
+        ItemMeta meta = item.getItemMeta();
+        if (!(meta.getDisplayName().equals(ChatColor.DARK_GRAY + player.getName() + "'s ID"))) return;
+        PersistentDataContainer container = meta.getPersistentDataContainer();
+        NamespacedKey key = new NamespacedKey(plugin, "license");
+        Information info = container.get(key, new InformationDataType());
+        player.sendMessage(info.getName());
+        player.sendMessage(info.getUuid().toString());
+        player.sendMessage(info.getIssuedDate().toString());
     }
 
     @EventHandler
