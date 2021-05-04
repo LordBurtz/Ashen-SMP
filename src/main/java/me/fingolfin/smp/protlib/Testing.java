@@ -10,7 +10,9 @@ import com.comphenix.protocol.events.PacketEvent;
 import me.fingolfin.smp.data.data;
 import me.fingolfin.smp.main;
 import org.bukkit.*;
+import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.block.Chest;
 import org.bukkit.block.TileState;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
@@ -18,11 +20,14 @@ import org.bukkit.boss.BossBar;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockDamageEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
@@ -30,6 +35,7 @@ import org.bukkit.event.player.PlayerToggleFlightEvent;
 import org.bukkit.event.server.ServerListPingEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.BlockDataMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
@@ -271,6 +277,7 @@ public class Testing implements Listener, CommandExecutor {
         return;
     }
 
+    /*
     @EventHandler
     public void onPlace (BlockPlaceEvent event) {
         if (!event.getBlock().getType().equals(Material.CHEST)) return;
@@ -284,7 +291,7 @@ public class Testing implements Listener, CommandExecutor {
         state.update();
 
         event.getPlayer().sendMessage("chest locked");
-    }
+    }*/
 
     @EventHandler
     public void onAirRightClickPaper(PlayerInteractEvent event) {
@@ -302,6 +309,7 @@ public class Testing implements Listener, CommandExecutor {
         player.sendMessage(info.getIssuedDate().toString());
     }
 
+    /*
     @EventHandler
     public void onChestOpen(PlayerInteractEvent event) {
         if (!event.hasBlock()) return;
@@ -319,7 +327,7 @@ public class Testing implements Listener, CommandExecutor {
             event.getPlayer().sendMessage(ChatColor.GRAY + "this chest is locked!");
             event.setCancelled(true);
         }
-    }
+    }*/
 
     public ItemStack getID(Information information) {
         ItemStack id = new ItemStack(Material.PAPER);
@@ -333,5 +341,26 @@ public class Testing implements Listener, CommandExecutor {
 
         id.setItemMeta(meta);
         return id;
+    }
+
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void onDeath(PlayerDeathEvent event) {
+        Inventory inv = event.getEntity().getInventory();
+        Location loc = event.getEntity().getLocation();
+        Block block = loc.getBlock();
+        block.setType(Material.CHEST);
+        Chest chest = (Chest) loc.getBlock().getState();
+        Inventory chestinv = chest.getInventory();
+        int y = 1;
+        for (ItemStack item : inv) {
+            if (item == null) {
+                continue;
+            } else {
+                chestinv.setItem(y, item);
+                y++;
+            }
+        }
+        event.getEntity().getInventory().clear();
+        event.getDrops().clear();
     }
 }
