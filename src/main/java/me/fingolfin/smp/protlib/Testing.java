@@ -51,14 +51,11 @@ public class Testing implements Listener, CommandExecutor {
 
     public Inventory inventory;
     public static String MOTD;
-    public final int COOLDOWN = 5;
-    public HashMap<Player, Long> jumpers = new HashMap<>();
     public List<String> muted = new ArrayList<>();
 
     public Testing(main plugin) {
         this.plugin = plugin;
         plugin.getCommand("7ac").setExecutor(this);
-        setMOTD();
         pmng = ProtocolLibrary.getProtocolManager();
         PluginManager pm = Bukkit.getPluginManager();
         pm.registerEvents(this, plugin);
@@ -129,112 +126,6 @@ public class Testing implements Listener, CommandExecutor {
         return true;
     }
 
-    @EventHandler (priority = EventPriority.HIGHEST)
-    public void onPlayerFly(PlayerToggleFlightEvent event) {
-        Player player = event.getPlayer();
-        if (jumpers.containsKey(player)) {
-            if ((System.currentTimeMillis() - jumpers.get(event.getPlayer())) / 1000 < COOLDOWN) {
-                player.sendMessage(
-                        ChatColor.GOLD +
-                                String.format("You have to wait %.1f secs to use that again",
-                                        ((float) COOLDOWN - ((float) (System.currentTimeMillis() - jumpers.get(event.getPlayer()))) / 1000)));
-                event.setCancelled(true);
-                return;
-            }
-            if (!(player.getGameMode().equals(GameMode.CREATIVE))) {
-                event.setCancelled(true);
-                player.setFlying(false);
-                player.setAllowFlight(false);
-                Vector vector = player.getLocation().getDirection();
-                player.setVelocity(vector.setY(1.1D));
-                player.playEffect(player.getLocation(), Effect.BLAZE_SHOOT, 15);
-                bossBar(player);
-                jumpers.put(player, System.currentTimeMillis());
-            }
-        } else {
-            if (!(player.getGameMode().equals(GameMode.CREATIVE))) {
-                event.setCancelled(true);
-                player.setFlying(false);
-                player.setAllowFlight(false);
-                Vector vector = player.getLocation().getDirection();
-                player.setVelocity(vector.setY(1.1D));
-                player.playEffect(player.getLocation(), Effect.BLAZE_SHOOT, 15);
-                bossBar(player);
-                jumpers.put(player, System.currentTimeMillis());
-            }
-        }
-    }
-
-    @SuppressWarnings("deprecation")
-    @EventHandler
-    public void onPlayerMove(PlayerMoveEvent event) {
-        Player player = event.getPlayer();
-        if (!(event.getPlayer().getGameMode().equals(GameMode.CREATIVE)) && !(player.getLocation().getBlock().getRelative(BlockFace.DOWN).getType().equals(Material.AIR))) {
-                player.setAllowFlight(true);
-            }
-    }
-
-    public void bossBar(Player player, boolean bool) {
-        BossBar bar = Bukkit.createBossBar(ChatColor.GOLD + "Cooldown Double Jump", BarColor.YELLOW, BarStyle.SOLID);
-        bar.addPlayer(player);
-        bar.setProgress(1D);
-        Bukkit.getServer().getScheduler().runTaskLater(plugin,() -> {
-            bar.setProgress(0.8D);
-        } ,20);
-        Bukkit.getServer().getScheduler().runTaskLater(plugin,() -> {
-            bar.setProgress(0.6D);
-        } ,40);
-        Bukkit.getServer().getScheduler().runTaskLater(plugin,() -> {
-            bar.setProgress(0.4D);
-        } ,60);
-        Bukkit.getServer().getScheduler().runTaskLater(plugin,() -> {
-            bar.setProgress(0.2D);
-        } ,80);
-        Bukkit.getServer().getScheduler().runTaskLater(plugin,() -> {
-            bar.setProgress(0.1D);
-        } ,90);
-        Bukkit.getServer().getScheduler().runTaskLater(plugin,() -> {
-            bar.setProgress(0.0D);
-            bar.removeAll();
-        } ,100);
-        return;
-    }
-
-    public void bossBar(Player player) {
-        BossBar bar = Bukkit.createBossBar(ChatColor.DARK_PURPLE + "Cooldown Double Jump", BarColor.PURPLE, BarStyle.SEGMENTED_20);
-        bar.addPlayer(player);
-        bar.setProgress(1D);
-        for (double i = 0; i <= 1; i = i + 0.05) {
-            double finalI = i;
-            Bukkit.getServer().getScheduler().runTaskLater(plugin,() -> {
-                bar.setProgress(1.0D - finalI);
-            } , (long) (finalI*100));
-        }
-        Bukkit.getServer().getScheduler().runTaskLater(plugin,() -> {
-            bar.setProgress(0.0D);
-            bar.removeAll();
-        } ,100);
-    }
-
-    public void setMOTD() {
-        data data = new data(plugin, "config.yml");
-        data.saveDefaultConfig("config.yml");
-        if (data.getConfig("config.yml").contains("MOTD")) {
-            MOTD = data.getConfig("config.yml").getString("MOTD");
-        } else {
-            data.getConfig("config.yml").set("MOTD", "THIS IS A TEST SERVER");
-            MOTD = "THIS IS A TEST SERVER";
-        }
-        data.saveConfig("config.yml");
-        MOTD = ChatColor.RED + "" + ChatColor.BOLD + MOTD;
-    }
-
-    @EventHandler
-    public void onPing(ServerListPingEvent event) {
-        event.setMaxPlayers(-1);
-        event.setMotd(MOTD);
-    }
-
     public void createInv() {
         inventory = Bukkit.createInventory(null, 9, ChatColor.GOLD + "do the testing");
         ItemStack item = new ItemStack(Material.BLUE_WOOL);
@@ -277,9 +168,10 @@ public class Testing implements Listener, CommandExecutor {
         return;
     }
 
-    /*
+
     @EventHandler
     public void onPlace (BlockPlaceEvent event) {
+        if (!event.getPlayer().isSneaking()) return;
         if (!event.getBlock().getType().equals(Material.CHEST)) return;
         if (!(event.getBlock().getState() instanceof TileState)) return;
 
@@ -291,7 +183,7 @@ public class Testing implements Listener, CommandExecutor {
         state.update();
 
         event.getPlayer().sendMessage("chest locked");
-    }*/
+    }
 
     @EventHandler
     public void onAirRightClickPaper(PlayerInteractEvent event) {
@@ -309,7 +201,7 @@ public class Testing implements Listener, CommandExecutor {
         player.sendMessage(info.getIssuedDate().toString());
     }
 
-    /*
+
     @EventHandler
     public void onChestOpen(PlayerInteractEvent event) {
         if (!event.hasBlock()) return;
@@ -327,7 +219,7 @@ public class Testing implements Listener, CommandExecutor {
             event.getPlayer().sendMessage(ChatColor.GRAY + "this chest is locked!");
             event.setCancelled(true);
         }
-    }*/
+    }
 
     public ItemStack getID(Information information) {
         ItemStack id = new ItemStack(Material.PAPER);
@@ -341,26 +233,5 @@ public class Testing implements Listener, CommandExecutor {
 
         id.setItemMeta(meta);
         return id;
-    }
-
-    @EventHandler(priority = EventPriority.HIGHEST)
-    public void onDeath(PlayerDeathEvent event) {
-        Inventory inv = event.getEntity().getInventory();
-        Location loc = event.getEntity().getLocation();
-        Block block = loc.getBlock();
-        block.setType(Material.CHEST);
-        Chest chest = (Chest) loc.getBlock().getState();
-        Inventory chestinv = chest.getInventory();
-        int y = 1;
-        for (ItemStack item : inv) {
-            if (item == null) {
-                continue;
-            } else {
-                chestinv.setItem(y, item);
-                y++;
-            }
-        }
-        event.getEntity().getInventory().clear();
-        event.getDrops().clear();
     }
 }
