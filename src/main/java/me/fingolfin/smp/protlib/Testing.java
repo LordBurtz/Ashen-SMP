@@ -287,6 +287,15 @@ public class Testing implements Listener, CommandExecutor {
     }
 
     @EventHandler
+    public void onAirRightClickPaper(PlayerInteractEvent event) {
+        Player player = event.getPlayer();
+        if (!player.getInventory().getItemInMainHand().getType().equals(Material.PAPER)) return;
+        ItemStack item = player.getInventory().getItemInMainHand();
+        if (!item.hasItemMeta()) return;
+
+    }
+
+    @EventHandler
     public void onChestOpen(PlayerInteractEvent event) {
         if (!event.hasBlock()) return;
         if (!event.getClickedBlock().getType().equals(Material.CHEST)) return;
