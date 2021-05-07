@@ -1,5 +1,6 @@
 package me.fingolfin.smp;
 
+import me.fingolfin.smp.anvilInfRepair.AnvilInfRepair;
 import me.fingolfin.smp.apprentice.apprentice;
 import me.fingolfin.smp.convertable.DaBaby;
 import me.fingolfin.smp.effects.effectsMayor;
@@ -49,6 +50,7 @@ public final class main extends JavaPlugin {
         new DoubleJump(this);
         new motd(this);
         new DeathChest(this);
+        new AnvilInfRepair(this);
 
         //Testing Area
         //new Testing(this);

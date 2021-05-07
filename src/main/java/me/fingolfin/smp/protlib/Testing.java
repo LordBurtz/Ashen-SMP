@@ -21,13 +21,18 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Projectile;
+import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockDamageEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
@@ -78,6 +83,11 @@ public class Testing implements Listener, CommandExecutor {
         if (!(commandSender instanceof Player)) return true;
         String name = commandSender.getName();
 
+            commandSender.sendMessage(Bukkit.getServer().getWorld("world").getName());
+            commandSender.sendMessage("done");
+            //return true;
+
+        if (1 == 1) return true;
         if (strings[0].equals("gui")) {
             ((Player) commandSender).openInventory(inventory);
             return true;
@@ -233,5 +243,20 @@ public class Testing implements Listener, CommandExecutor {
 
         id.setItemMeta(meta);
         return id;
+    }
+
+    @EventHandler (priority = EventPriority.HIGHEST)
+    public void onEnderEyeThrow(PlayerInteractEvent event) {
+        Player player = event.getPlayer();
+        if (event.getItem() == null || event.getItem().getType() != Material.ENDER_EYE) return;
+        if ((event.getAction().equals(Action.RIGHT_CLICK_AIR))) return;
+        if (player.getGameMode().equals(GameMode.CREATIVE)) return;
+        if (event.getItem().getType().equals(Material.ENDER_EYE)) {
+            event.setCancelled(true);
+            event.setUseItemInHand(Event.Result.DENY);
+            //TODO: integrate with Terra generation
+            Location target = player.getLocation();
+            Bukkit.getServer().getWorld("world").getSpawnLocation();
+        }
     }
 }

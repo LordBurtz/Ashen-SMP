@@ -100,6 +100,8 @@ public class DaBaby implements Listener, CommandExecutor {
     @EventHandler
     public  void onPigLeave (VehicleExitEvent event) {
         if (!(event.getExited() instanceof  Player)) return;
+        if (event.getVehicle().getName() == null) return;
+        if (event.getVehicle().getCustomName() == null) return;
         if ((event.getVehicle().getCustomName().isEmpty())) return;
         if (!(event.getVehicle().getCustomName().equals("a convertable"))) return;
         if (!(event.getExited().getName().equals(daBaby))) return;
