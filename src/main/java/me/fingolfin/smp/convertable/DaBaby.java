@@ -14,7 +14,9 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Pig;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.vehicle.VehicleDestroyEvent;
 import org.bukkit.event.vehicle.VehicleExitEvent;
@@ -95,6 +97,18 @@ public class DaBaby implements Listener, CommandExecutor {
         ((Pig) pig).addPotionEffect(new PotionEffect(PotionEffectType.SPEED, Integer.MAX_VALUE, 17, true, false));
         commandSender.sendMessage("less goo");
         return true;
+    }
+
+    @EventHandler
+    public void onDababyDeath(PlayerDeathEvent event) {
+        for (Player online : Bukkit.getOnlinePlayers()) {
+            if (online.getName().equals(XPgain.oldman)) {
+                continue;
+            }
+            online.showPlayer(plugin, (Player) event.getEntity());
+        }
+        destroyDaBabys();
+        event.getEntity().getInventory().remove(Material.CARROT_ON_A_STICK);
     }
 
     @EventHandler

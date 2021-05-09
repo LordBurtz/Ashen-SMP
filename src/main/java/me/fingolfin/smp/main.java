@@ -8,6 +8,7 @@ import me.fingolfin.smp.effects.effectsMercenarie;
 import me.fingolfin.smp.effects.effectsRoyal;
 import me.fingolfin.smp.helloworld.helloworldcmd;
 import me.fingolfin.smp.horse.horse_spwn_cmd;
+import me.fingolfin.smp.meditation.BetterMeditation;
 import me.fingolfin.smp.meditation.meditation;
 import me.fingolfin.smp.necro.necromancer;
 import me.fingolfin.smp.noSharp.noSharp;
@@ -54,6 +55,7 @@ public final class main extends JavaPlugin {
 
         //Testing Area
         //new Testing(this);
+        new BetterMeditation(this);
     }
 
     @Override

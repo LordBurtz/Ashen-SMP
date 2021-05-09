@@ -26,3 +26,6 @@ commands:
       - "mute"
   convertable:
     aliases: []
+
+  med2:
+    aliases: []
