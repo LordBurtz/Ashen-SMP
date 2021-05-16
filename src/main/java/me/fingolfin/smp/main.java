@@ -55,7 +55,7 @@ public final class main extends JavaPlugin {
 
         //Testing Area
         //new Testing(this);
-        new BetterMeditation(this);
+        //new BetterMeditation(this);
     }
 
     @Override
